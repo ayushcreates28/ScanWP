@@ -1,9 +1,5 @@
 name: Python audit engine checks
-on:
-  push:
-    paths: ['audit-engine/**', 'wordpress-connector/**', 'wordpress-test/**', '.github/workflows/**', 'AGENTS.md']
-  pull_request:
-    paths: ['audit-engine/**', 'wordpress-connector/**', 'wordpress-test/**', '.github/workflows/**', 'AGENTS.md']
+on: [push, pull_request]
 permissions:
   contents: read
 jobs:
