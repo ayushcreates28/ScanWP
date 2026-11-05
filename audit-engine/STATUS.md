@@ -19,4 +19,4 @@ The existing Sites dashboard/manual collector predate this TDD specification. No
 
 The latest metrics and commands are in `evidence/release-metrics.json`, `release-tests.log`, `quality-*.log`, PHP fixture logs and root TESTING.md. Failed attempts and genuine RED runs are preserved. Personal workspace prefixes in shareable evidence are redacted and documented; outcome/count/trace content is otherwise retained.
 
-Selected repository: `https://github.com/ayushcreates28/ScanWP`. Code/workflows are prepared locally; consult handoff status for actual push/hosted CI outcome. Never infer deployment/activation from the existence of workflow files.
+Selected repository: `https://github.com/ayushcreates28/ScanWP`. Source/workflows were pushed successfully to `main` on 2026-11-05 after the user completed local Git authentication. Both workflows are registered; hosted CI verification is in progress. The repository is public, so the live monthly job's private-repository/activation guards keep client scanning disabled. No repository visibility, secrets or live-scan settings were changed. Consult HANDOFF.md for the current CI outcome.

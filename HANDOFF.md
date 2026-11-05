@@ -2,9 +2,9 @@
 
 The source is committed locally in this checkout. The initial engine commit is `d23d97f`; `48b0cb2` preserves binary report files and captured output across Git checkouts. Later documentation-only commits may follow.
 
-GitHub destination: https://github.com/ayushcreates28/ScanWP. **Push has not succeeded.** The ordinary sandbox attempt could not resolve GitHub; the permitted network retry reached Git credential handling but failed because no usable GitHub authentication was available with interactive prompts disabled. This was an authentication failure, not an automatic approval-review rejection. No remote code, repository visibility, branch protection, secrets or live-scan settings have been changed.
+GitHub destination: https://github.com/ayushcreates28/ScanWP. **Source pushed successfully to main on 2026-11-05**, initially through commit `9d701ad`. The user completed Git Credential Manager device authentication. Earlier network/authentication failures are historical; they no longer block the push. Repository visibility, branch protection, secrets and live-scan settings have not been changed.
 
-The GitHub integration is available but was not installed/connected at handoff. Install it and sign in with access to this repository, or authenticate Git locally, then resume the push and hosted CI verification. Do not paste credentials into chat. Local code, reports and evidence are preserved regardless of connection state.
+The GitHub integration is confirmed installed, and local Git authentication is working. GitHub registered both workflows as active. Hosted CI verification is in progress; do not infer a passing result from the workflow registration. The repository is public; the monthly audit job requires a private repository and explicit activation, so client scanning remains disabled.
 
 Latest full run: **299 passed, 1 skipped, 0 failed/errors**. Unit folder: 246 passed + 1 skipped; integration folder: 13 passed; security folder: 40 passed. Coverage: 95.48% lines; 93.94% combined lines/branches. Formatting, lint, strict typing, Bandit and dependency audit pass. PHP REST/admin function fixtures pass. See TESTING.md for commands, test-first failures, refactor reruns, environment and known limitations.
 
