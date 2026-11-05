@@ -53,6 +53,7 @@ services:
       - ../audit-engine/runtime/wordpress:/etc/nginx/fixture-tls:ro
   wpcli:
     image: wordpress:cli-php8.3@sha256:6bcc7bb91f5157c4b915e74ee131873e99c1c1ff48f602e4a6f6cd17827305cb
+    entrypoint: [/usr/local/bin/docker-entrypoint.sh, wp]
     user: '33:33'
     environment:
       <<: *wordpress-environment

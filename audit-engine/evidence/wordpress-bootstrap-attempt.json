@@ -1,0 +1,11 @@
+{
+  "run_id": 42001280998,
+  "head_sha": "56ec0f1aa0261b5586a01197ba810cfc3b3e76ae",
+  "url": "https://github.com/ayushcreates28/ScanWP/actions/runs/42001280998",
+  "ordinary_ci": "passed",
+  "wordpress_bootstrap": "failed",
+  "wordpress_test_executed": false,
+  "error": "WP-CLI image executed core as a command instead of wp core: /usr/local/bin/docker-entrypoint.sh: exec: line 11: core: not found",
+  "correction": "Explicit WP-CLI entrypoint appends wp before fixture arguments.",
+  "client_sites_accessed": false
+}
