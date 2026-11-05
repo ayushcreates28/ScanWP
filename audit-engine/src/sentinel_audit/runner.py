@@ -362,12 +362,21 @@ def run_audits(
                     site.id,
                 )
             except Exception:
+                scans[-1] = store.report_failed(scan_id)
                 alerts.append({"site_id": site.id, "scan_id": scan_id, "status": "report_failed"})
         portfolio = build_report(
             scans, registered_sites=len(config.sites), timezone=config.schedule.timezone
         )
         portfolio["summary"] = summarize(portfolio)
-        export_report(portfolio, output, "consolidated")
+        try:
+            export_report(portfolio, output, "consolidated")
+        except Exception:
+            scans = [store.report_failed(scan["id"]) for scan in scans]
+            alerts.append({"status": "consolidated_report_failed"})
+            portfolio = build_report(
+                scans, registered_sites=len(config.sites), timezone=config.schedule.timezone
+            )
+            portfolio["summary"] = summarize(portfolio)
         output.joinpath("alerts.json").write_text(json.dumps(alerts, indent=2), encoding="utf-8")
         store.backup(output / "history.sqlite")
         return {

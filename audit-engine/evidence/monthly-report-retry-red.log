@@ -1,0 +1,66 @@
+FF                                                                       [100%]
+================================== FAILURES ===================================
+_ test_required_report_failure_remains_retryable_for_monthly_scheduler[fixture] _
+
+tmp_path = WindowsPath('{USERPROFILE}/AppData/Local/Temp/pytest-of-RENT IT/pytest-30/test_required_report_failure_r0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001FCD1962720>
+failed_stem = 'fixture'
+
+    @pytest.mark.parametrize('failed_stem',['fixture','consolidated'])
+    def test_required_report_failure_remains_retryable_for_monthly_scheduler(tmp_path,monkeypatch,failed_stem):
+        import sentinel_audit.runner as module
+        original=module.export_report
+        def fail_required(report,output,stem):
+            if stem==failed_stem:raise OSError('Fixture report generation failure')
+            return original(report,output,stem)
+        monkeypatch.setattr(module,'export_report',fail_required)
+        store=Store(tmp_path/'db')
+        result=run_audits(AuditConfig(sites=[site()]),store,tmp_path/'out',environment={'SENTINEL_TOKEN_FIXTURE':'a'*64},feed=feed(),client_factory=factory())
+        assert result['status']=='partial'
+>       assert store.latest('fixture')['status']=='partial', 'Monthly due gate must not skip a failed required report'
+E       AssertionError: Monthly due gate must not skip a failed required report
+E       assert 'complete' == 'partial'
+E         
+E         - partial
+E         + complete
+
+tests\integration\test_runner.py:318: AssertionError
+_ test_required_report_failure_remains_retryable_for_monthly_scheduler[consolidated] _
+
+tmp_path = WindowsPath('{USERPROFILE}/AppData/Local/Temp/pytest-of-RENT IT/pytest-30/test_required_report_failure_r1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001FCD0416330>
+failed_stem = 'consolidated'
+
+    @pytest.mark.parametrize('failed_stem',['fixture','consolidated'])
+    def test_required_report_failure_remains_retryable_for_monthly_scheduler(tmp_path,monkeypatch,failed_stem):
+        import sentinel_audit.runner as module
+        original=module.export_report
+        def fail_required(report,output,stem):
+            if stem==failed_stem:raise OSError('Fixture report generation failure')
+            return original(report,output,stem)
+        monkeypatch.setattr(module,'export_report',fail_required)
+        store=Store(tmp_path/'db')
+>       result=run_audits(AuditConfig(sites=[site()]),store,tmp_path/'out',environment={'SENTINEL_TOKEN_FIXTURE':'a'*64},feed=feed(),client_factory=factory())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_runner.py:316: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\sentinel_audit\runner.py:370: in run_audits
+    export_report(portfolio, output, "consolidated")
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+report = {'schema': 'scanwp-report/v1', 'test_data': False, 'generated_at': '2026-11-05T15:13:10.587696+05:30', 'timezone': 'Asia/Kolkata', ...}
+output = WindowsPath('{USERPROFILE}/AppData/Local/Temp/pytest-of-RENT IT/pytest-30/test_required_report_failure_r1/out')
+stem = 'consolidated'
+
+    def fail_required(report,output,stem):
+>       if stem==failed_stem:raise OSError('Fixture report generation failure')
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       OSError: Fixture report generation failure
+
+tests\integration\test_runner.py:312: OSError
+=========================== short test summary info ===========================
+FAILED tests/integration/test_runner.py::test_required_report_failure_remains_retryable_for_monthly_scheduler[fixture]
+FAILED tests/integration/test_runner.py::test_required_report_failure_remains_retryable_for_monthly_scheduler[consolidated]
+2 failed, 9 deselected in 5.07s
+Command: python -m pytest tests/integration/test_runner.py -k remains_retryable -q; ExitCode: 1

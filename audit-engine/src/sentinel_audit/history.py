@@ -190,6 +190,22 @@ class Store:
             )
         return self.get(run_id)
 
+    def report_failed(self, run_id: str) -> dict[str, Any]:
+        """Keep terminal scans retryable when a required export fails."""
+        with self.connect() as connection:
+            connection.execute("BEGIN IMMEDIATE")
+            row = connection.execute("SELECT * FROM scans WHERE id=?", (run_id,)).fetchone()
+            if row is None or row["status"] == "running":
+                raise ValueError("A terminal scan is required for report failure")
+            document = json.loads(row["document"])
+            document["report_status"] = "failed"
+            status = "partial" if row["status"] == "complete" else row["status"]
+            connection.execute(
+                "UPDATE scans SET status=?,document=? WHERE id=?",
+                (status, safe_document(document), run_id),
+            )
+        return self.get(run_id)
+
     @staticmethod
     def decode(row: sqlite3.Row) -> dict[str, Any]:
         return {

@@ -302,3 +302,33 @@ def test_one_site_report_failure_sets_batch_alert(tmp_path, monkeypatch):
     )
     assert any(a["status"] == "report_failed" for a in result["alerts"])
     assert result["status"] == "partial"
+
+
+@pytest.mark.parametrize("failed_stem", ["fixture", "consolidated"])
+def test_required_report_failure_remains_retryable_for_monthly_scheduler(
+    tmp_path, monkeypatch, failed_stem
+):
+    import sentinel_audit.runner as module
+
+    original = module.export_report
+
+    def fail_required(report, output, stem):
+        if stem == failed_stem:
+            raise OSError("Fixture report generation failure")
+        return original(report, output, stem)
+
+    monkeypatch.setattr(module, "export_report", fail_required)
+    store = Store(tmp_path / "db")
+    result = run_audits(
+        AuditConfig(sites=[site()]),
+        store,
+        tmp_path / "out",
+        environment={"SENTINEL_TOKEN_FIXTURE": "a" * 64},
+        feed=feed(),
+        client_factory=factory(),
+    )
+    assert result["status"] == "partial"
+    assert store.latest("fixture")["status"] == "partial", (
+        "Monthly due gate must not skip a failed required report"
+    )
+    assert store.latest("fixture")["report_status"] == "failed"

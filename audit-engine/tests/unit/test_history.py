@@ -130,3 +130,17 @@ def test_feed_cache_atomic_storage_and_license_roundtrip(tmp_path):
     with pytest.raises(FeedError):
         store.save_feed(FeedSnapshot((), datetime.now(UTC)))
     assert store.load_feed() == feed
+
+
+def test_report_failure_preserves_findings_and_requires_terminal_scan(tmp_path):
+    store = Store(tmp_path / "report.db")
+    run = store.begin("fixture", datetime.now(UTC))
+    with pytest.raises(ValueError):
+        store.report_failed(run)
+    with pytest.raises(ValueError):
+        store.report_failed("unknown")
+    before = store.finish(run, "complete", {"findings": [finding()]})
+    after = store.report_failed(run)
+    assert after["status"] == "partial" and after["report_status"] == "failed"
+    assert after["findings"] == before["findings"]
+    assert after["completed"] == before["completed"]
