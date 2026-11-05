@@ -2,7 +2,8 @@
 
 ## 0.2.0 - 2026-11-05 (development, not production release)
 
-- Published source to GitHub after the user completed Git sign-in. Hosted ordinary CI passed all 300 engine cases; an added isolated Docker WordPress profile also passed real REST/inventory/token/write-method checks. Preserved the genuine connection-refused RED and corrected WP-CLI bootstrap failure; verified downloaded artifact SHA-256 values.
+- Published source to GitHub after the user completed Git sign-in. Hosted ordinary CI passed all 302 ordinary cases; an added isolated Docker WordPress profile also passed real REST/inventory/token/write-method checks. Preserved the genuine connection-refused RED and corrected WP-CLI bootstrap failure; verified downloaded artifact SHA-256 values.
+- Required passing verify/wordpress-integration checks on main, including administrators. Added two test-first regressions and removed CI path filters so documentation-only changes do not leave required checks pending.
 - Added a documented PostgreSQL migration boundary and validation/rollback plan; no PostgreSQL adapter or production migration is claimed.
 
 - Added the Python 3.12 engine, strict multi-site registry and read-only network controls.

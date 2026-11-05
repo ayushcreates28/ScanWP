@@ -1,0 +1,22 @@
+{
+  "repository": "ayushcreates28/ScanWP",
+  "branch": "main",
+  "verified_integration_sha": "de83145971e5161fc4a68bb0d55fef78889c3f71",
+  "checks": [
+    {
+      "context": "verify",
+      "app_id": 15368
+    },
+    {
+      "context": "wordpress-integration",
+      "app_id": 15368
+    }
+  ],
+  "strict": true,
+  "enforce_admins": true,
+  "allow_force_pushes": false,
+  "allow_deletions": false,
+  "live_scanning_enabled": false,
+  "repository_visibility_changed": false,
+  "secrets_changed": false
+}
