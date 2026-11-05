@@ -1,0 +1,7 @@
+src\sentinel_audit\wordfence.py:15: error: Skipping analyzing "ijson": module is installed, but missing library stubs or py.typed marker  [import-untyped]
+src\sentinel_audit\wordfence.py:15: note: See https://mypy.readthedocs.io/en/stable/running_mypy.html#missing-imports
+src\sentinel_audit\wordfence.py:113: error: Item "None" of "Any | dict[Any, Any] | None" has no attribute "get"  [union-attr]
+src\sentinel_audit\wordfence.py:120: error: Item "None" of "Any | dict[Any, Any] | None" has no attribute "get"  [union-attr]
+src\sentinel_audit\wordfence.py:131: error: Item "None" of "Any | list[Any] | None" has no attribute "__iter__" (not iterable)  [union-attr]
+src\sentinel_audit\wordfence.py:134: error: Argument 10 to "Record" has incompatible type "Any | dict[str, Any] | None"; expected "dict[str, Any]"  [arg-type]
+Found 5 errors in 1 file (checked 8 source files)

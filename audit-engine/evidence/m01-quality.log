@@ -1,0 +1,7 @@
+Quality commands and exit codes
+ruff check: 0
+mypy: 0
+bandit: 0
+Command: .venv/Scripts/python.exe -m pip_audit --local --skip-editable --format json --output evidence/dependency-audit.json; ExitCode: 1
+pip upgrade ExitCode: 0
+dependency recheck ExitCode: 0

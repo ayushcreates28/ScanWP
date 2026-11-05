@@ -1,0 +1,25 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+_________ test_single_site_selection_accepts_bundle_for_full_registry _________
+
+tmp_path = WindowsPath('{USERPROFILE}/AppData/Local/Temp/pytest-of-RENT IT/pytest-20/test_single_site_selection_acc0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002A379972F30>
+
+    def test_single_site_selection_accepts_bundle_for_full_registry(tmp_path,monkeypatch):
+        path=registry(tmp_path,methods=['inventory'],connector_token_env='SENTINEL_FIXTURE_TOKEN')
+        data=json.loads(path.read_text());data['sites'].append({**data['sites'][0],'id':'other','production_url':'https://other.example.org','connector_token_env':'SENTINEL_OTHER_TOKEN'})
+        path.write_text(json.dumps(data))
+        monkeypatch.setenv('SENTINEL_CONNECTOR_TOKENS_JSON',json.dumps({'SENTINEL_FIXTURE_TOKEN':'a'*64,'SENTINEL_OTHER_TOKEN':'b'*64}))
+        monkeypatch.setattr('sentinel_audit.cli.WordfenceClient.fetch',lambda _:None)
+        monkeypatch.setattr('sentinel_audit.cli.run_audits',lambda *a,**kw:{'status':'complete','scans':[]})
+>       assert main(['scan','--live','--site','fixture','--config',str(path),'--db',str(tmp_path/'db'),'--output',str(tmp_path/'out')])==0
+E       AssertionError: assert 2 == 0
+E        +  where 2 = main(['scan', '--live', '--site', 'fixture', '--config', '{USERPROFILE}\\AppData\\Local\\Temp\\pytest-of-RENT IT\\pytest-20\\test_single_site_selection_acc0\\config.json', ...])
+
+tests\unit\test_cli.py:218: AssertionError
+---------------------------- Captured stdout call -----------------------------
+Operation failed: configuration, input, storage or report validation error. Secret-bearing details omitted.
+=========================== short test summary info ===========================
+FAILED tests/unit/test_cli.py::test_single_site_selection_accepts_bundle_for_full_registry
+1 failed, 10 deselected in 2.05s
+Command: python -m pytest tests/unit/test_cli.py -k single_site -q; ExitCode: 1

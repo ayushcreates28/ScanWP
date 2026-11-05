@@ -1,0 +1,27 @@
+Parsed workflow: audit-engine-ci.yml
+Parsed workflow: monthly-audit.yml
+Connector ZIP SHA-256: a6a7884233c271ffbdf63c25f1396fefcbc0b9cf7b21e9d5612b85925df3b923
+consolidated.pdf 3 pages
+fixture-alpha.pdf 2 pages
+fixture-beta.pdf 1 pages
+{
+  "tests": {
+    "unit": {
+      "passed": 246,
+      "skipped": 1,
+      "total": 247
+    },
+    "integration": {
+      "passed": 13,
+      "total": 13
+    },
+    "security": {
+      "passed": 40,
+      "total": 40
+    }
+  },
+  "combined_coverage": 93.94205443371378,
+  "line_coverage": 95.475910693302,
+  "python_version": "3.12.14",
+  "network_tests": "mocked; no live client scan"
+}

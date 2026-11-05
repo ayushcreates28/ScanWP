@@ -1,0 +1,2 @@
+Success: no issues found in 17 source files
+Command: python -m mypy; ExitCode: 0

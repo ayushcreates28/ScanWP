@@ -1,0 +1,120 @@
+..........................................FFFF                           [100%]
+================================== FAILURES ===================================
+___ test_httpcore_transport_errors_are_wrapped_without_secret_echo[connect] ___
+
+failure_type = 'connect'
+
+    @pytest.mark.parametrize('failure_type',['connect','timeout'])
+    def test_httpcore_transport_errors_are_wrapped_without_secret_echo(failure_type):
+        import httpcore
+        def handler(_):
+            error=httpcore.ConnectError if failure_type=='connect' else httpcore.ReadTimeout
+            raise error('fixture-api-key must never appear')
+>       with pytest.raises(FeedError) as e:provider(handler).fetch()
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\unit\test_wordfence.py:232: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\sentinel_audit\wordfence.py:185: in fetch
+    with client.stream(
+{USERPROFILE}\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\httpx\_client.py:868: in stream
+    response = self.send(
+..\..\audit-engine\.venv\Lib\site-packages\httpx\_client.py:914: in send
+    response = self._send_handling_auth(
+..\..\audit-engine\.venv\Lib\site-packages\httpx\_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+..\..\audit-engine\.venv\Lib\site-packages\httpx\_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\httpx\_client.py:1014: in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\httpx\_transports\mock.py:24: in handle_request
+    response = self.handler(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+_ = <Request('GET', 'https://www.wordfence.com/api/intelligence/v3/vulnerabilities/production')>
+
+    def handler(_):
+        error=httpcore.ConnectError if failure_type=='connect' else httpcore.ReadTimeout
+>       raise error('fixture-api-key must never appear')
+E       httpcore.ConnectError: fixture-api-key must never appear
+
+tests\unit\test_wordfence.py:231: ConnectError
+___ test_httpcore_transport_errors_are_wrapped_without_secret_echo[timeout] ___
+
+failure_type = 'timeout'
+
+    @pytest.mark.parametrize('failure_type',['connect','timeout'])
+    def test_httpcore_transport_errors_are_wrapped_without_secret_echo(failure_type):
+        import httpcore
+        def handler(_):
+            error=httpcore.ConnectError if failure_type=='connect' else httpcore.ReadTimeout
+            raise error('fixture-api-key must never appear')
+>       with pytest.raises(FeedError) as e:provider(handler).fetch()
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\unit\test_wordfence.py:232: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\sentinel_audit\wordfence.py:185: in fetch
+    with client.stream(
+{USERPROFILE}\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\httpx\_client.py:868: in stream
+    response = self.send(
+..\..\audit-engine\.venv\Lib\site-packages\httpx\_client.py:914: in send
+    response = self._send_handling_auth(
+..\..\audit-engine\.venv\Lib\site-packages\httpx\_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+..\..\audit-engine\.venv\Lib\site-packages\httpx\_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\httpx\_client.py:1014: in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\httpx\_transports\mock.py:24: in handle_request
+    response = self.handler(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+_ = <Request('GET', 'https://www.wordfence.com/api/intelligence/v3/vulnerabilities/production')>
+
+    def handler(_):
+        error=httpcore.ConnectError if failure_type=='connect' else httpcore.ReadTimeout
+>       raise error('fixture-api-key must never appear')
+E       httpcore.ReadTimeout: fixture-api-key must never appear
+
+tests\unit\test_wordfence.py:231: ReadTimeout
+_____________ test_record_count_budget_is_reported_as_size_limit ______________
+
+    def test_record_count_budget_is_reported_as_size_limit():
+        second=raw(id='fixture-002')
+        with pytest.raises(FeedError) as e:provider(lambda _:httpx.Response(200,json={'fixture-001':raw(),'fixture-002':second}),max_records=1).fetch()
+>       assert e.value.kind=='size'
+E       AssertionError: assert 'schema' == 'size'
+E         
+E         - size
+E         + schema
+
+tests\unit\test_wordfence.py:239: AssertionError
+____________ test_parse_deadline_bounds_processing_after_download _____________
+
+    def test_parse_deadline_bounds_processing_after_download():
+        ticks=iter([0,0,181])
+>       with pytest.raises(FeedError) as e:provider(lambda _:httpx.Response(200,json={'fixture-001':raw()}),clock=lambda:next(ticks)).fetch()
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE FeedError
+
+tests\unit\test_wordfence.py:244: Failed
+=========================== short test summary info ===========================
+FAILED tests/unit/test_wordfence.py::test_httpcore_transport_errors_are_wrapped_without_secret_echo[connect]
+FAILED tests/unit/test_wordfence.py::test_httpcore_transport_errors_are_wrapped_without_secret_echo[timeout]
+FAILED tests/unit/test_wordfence.py::test_record_count_budget_is_reported_as_size_limit
+FAILED tests/unit/test_wordfence.py::test_parse_deadline_bounds_processing_after_download
+4 failed, 42 passed in 1.31s
+Command: python -m pytest tests/unit/test_wordfence.py -q; ExitCode: 1

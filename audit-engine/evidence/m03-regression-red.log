@@ -1,0 +1,44 @@
+.................FF                                                      [100%]
+================================== FAILURES ===================================
+____ test_wpcli_does_not_fabricate_inactive_status_for_unrecognized_state _____
+
+    def test_wpcli_does_not_fabricate_inactive_status_for_unrecognized_state():
+        r=parse_wpcli('6.9',[{'name':'custom','status':'unexpected','version':'1'}],[],'https://audit.example.org/')
+>       assert r['components'][1]['status']=='unknown'
+E       AssertionError: assert 'inactive' == 'unknown'
+E         
+E         - unknown
+E         + inactive
+
+tests\unit\test_inventory.py:82: AssertionError
+_____________ test_wpcli_malformed_records_raise_inventory_error ______________
+
+    def test_wpcli_malformed_records_raise_inventory_error():
+>       with pytest.raises(InventoryError):parse_wpcli('6.9',[None],[],'https://audit.example.org/')
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\unit\test_inventory.py:86: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+core_version = '6.9', plugins = [None], themes = []
+site_url = 'https://audit.example.org/', php_version = None
+
+    def parse_wpcli(core_version: str, plugins: list[dict[str, Any]], themes: list[dict[str, Any]], site_url: str, php_version: str | None = None) -> dict[str, Any]:
+        components: list[dict[str, Any]] = [{"id": "core", "type": "core", "name": "WordPress", "slug": "wordpress", "version": core_version, "status": "runtime", "updateState": "unknown"}]
+        if php_version:
+            components.append({"id": "php", "type": "php", "name": "PHP", "slug": "php", "version": php_version, "status": "runtime", "updateState": "unknown"})
+        states = {"active-network": "network-active", "must-use": "must-use", "dropin": "drop-in", "active": "active", "inactive": "inactive", "parent": "parent"}
+        for kind, records in [("plugin", plugins), ("theme", themes)]:
+            if len(records) > 500:
+                raise InventoryError("WP-CLI inventory exceeds the component limit")
+            for record in records:
+>               slug = record.get("name")
+                       ^^^^^^^^^^
+E               AttributeError: 'NoneType' object has no attribute 'get'
+
+src\sentinel_audit\inventory.py:117: AttributeError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_inventory.py::test_wpcli_does_not_fabricate_inactive_status_for_unrecognized_state
+FAILED tests/unit/test_inventory.py::test_wpcli_malformed_records_raise_inventory_error
+2 failed, 17 passed in 0.83s
+Command: python -m pytest tests/unit/test_inventory.py -q; ExitCode: 1

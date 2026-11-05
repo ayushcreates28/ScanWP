@@ -1,0 +1,93 @@
+..............................................FF...........              [100%]
+================================== FAILURES ===================================
+_ test_pinned_provider_scope_and_partial_protocol_errors_do_not_escape[scope] _
+
+failure = 'scope'
+
+    @pytest.mark.parametrize('failure',['scope','protocol'])
+    def test_pinned_provider_scope_and_partial_protocol_errors_do_not_escape(failure):
+        import httpcore
+        from sentinel_audit.transport import ScopeError
+        def handler(_):raise ScopeError('fixture-api-key') if failure=='scope' else httpcore.RemoteProtocolError('fixture-api-key')
+>       with pytest.raises(FeedError) as error:provider(handler).fetch()
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\unit\test_wordfence.py:264: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\sentinel_audit\wordfence.py:186: in fetch
+    with client.stream(
+{USERPROFILE}\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\httpx\_client.py:868: in stream
+    response = self.send(
+..\..\audit-engine\.venv\Lib\site-packages\httpx\_client.py:914: in send
+    response = self._send_handling_auth(
+..\..\audit-engine\.venv\Lib\site-packages\httpx\_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+..\..\audit-engine\.venv\Lib\site-packages\httpx\_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\httpx\_client.py:1014: in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\httpx\_transports\mock.py:24: in handle_request
+    response = self.handler(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+_ = <Request('GET', 'https://www.wordfence.com/api/intelligence/v3/vulnerabilities/production')>
+
+>   def handler(_):raise ScopeError('fixture-api-key') if failure=='scope' else httpcore.RemoteProtocolError('fixture-api-key')
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   sentinel_audit.transport.ScopeError: fixture-api-key
+
+tests\unit\test_wordfence.py:263: ScopeError
+_ test_pinned_provider_scope_and_partial_protocol_errors_do_not_escape[protocol] _
+
+failure = 'protocol'
+
+    @pytest.mark.parametrize('failure',['scope','protocol'])
+    def test_pinned_provider_scope_and_partial_protocol_errors_do_not_escape(failure):
+        import httpcore
+        from sentinel_audit.transport import ScopeError
+        def handler(_):raise ScopeError('fixture-api-key') if failure=='scope' else httpcore.RemoteProtocolError('fixture-api-key')
+>       with pytest.raises(FeedError) as error:provider(handler).fetch()
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\unit\test_wordfence.py:264: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\sentinel_audit\wordfence.py:186: in fetch
+    with client.stream(
+{USERPROFILE}\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\httpx\_client.py:868: in stream
+    response = self.send(
+..\..\audit-engine\.venv\Lib\site-packages\httpx\_client.py:914: in send
+    response = self._send_handling_auth(
+..\..\audit-engine\.venv\Lib\site-packages\httpx\_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+..\..\audit-engine\.venv\Lib\site-packages\httpx\_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\httpx\_client.py:1014: in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\httpx\_transports\mock.py:24: in handle_request
+    response = self.handler(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+_ = <Request('GET', 'https://www.wordfence.com/api/intelligence/v3/vulnerabilities/production')>
+
+>   def handler(_):raise ScopeError('fixture-api-key') if failure=='scope' else httpcore.RemoteProtocolError('fixture-api-key')
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   httpcore.RemoteProtocolError: fixture-api-key
+
+tests\unit\test_wordfence.py:263: RemoteProtocolError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_wordfence.py::test_pinned_provider_scope_and_partial_protocol_errors_do_not_escape[scope]
+FAILED tests/unit/test_wordfence.py::test_pinned_provider_scope_and_partial_protocol_errors_do_not_escape[protocol]
+2 failed, 57 passed in 0.87s
+Command: python -m pytest tests/unit/test_wordfence.py -q; ExitCode: 1

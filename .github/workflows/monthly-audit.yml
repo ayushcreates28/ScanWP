@@ -1,0 +1,76 @@
+name: Authorized monthly WordPress audit
+on:
+  workflow_dispatch:
+  schedule:
+    # Monthly due time: day 1, 09:17 Asia/Kolkata. Daily ticks recover missed runs.
+    - cron: '47 3 * * *'
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: scanwp-private-monthly-audit
+  cancel-in-progress: false
+jobs:
+  audit:
+    # Explicit activation and private storage are required before live execution.
+    if: vars.SENTINEL_ENABLE_SCANS == 'true' && github.event.repository.private == true && github.ref_name == github.event.repository.default_branch
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    environment: wordpress-audits
+    defaults:
+      run:
+        working-directory: audit-engine
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --upgrade 'pip>=26.2'
+      - run: python -m pip install -r requirements.lock
+      - run: python -m pip install -e .
+      - name: Restore private history
+        id: restore
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          SENTINEL_INITIALIZE_HISTORY: ${{ vars.SENTINEL_INITIALIZE_HISTORY }}
+        run: python -m sentinel_audit.github_state --target runtime/state/history.sqlite --branch "$DEFAULT_BRANCH"
+      - name: Write secret registry without logging it
+        env:
+          REGISTRY_JSON: ${{ secrets.SENTINEL_REGISTRY_JSON }}
+        run: |
+          python -c "import os,pathlib; p=pathlib.Path('runtime/sites.json'); p.parent.mkdir(parents=True,exist_ok=True); p.write_text(os.environ['REGISTRY_JSON'],encoding='utf-8'); p.chmod(0o600)"
+      - run: python -m sentinel_audit.cli validate --config runtime/sites.json
+      - name: Run due audits
+        env:
+          SENTINEL_CONNECTOR_TOKENS_JSON: ${{ secrets.SENTINEL_CONNECTOR_TOKENS_JSON }}
+          SENTINEL_WORDFENCE_API_KEY: ${{ secrets.SENTINEL_WORDFENCE_API_KEY }}
+          SENTINEL_WORDFENCE_TERMS_ACCEPTED: ${{ vars.SENTINEL_WORDFENCE_TERMS_ACCEPTED }}
+        run: python -m sentinel_audit.cli scan --live --scheduled --config runtime/sites.json --db runtime/state/history.sqlite --output runtime/output
+      - name: Preserve history even when an audit is partial
+        if: always() && steps.restore.outcome == 'success'
+        run: |
+          python -c "from pathlib import Path; from sentinel_audit.history import Store; p=Path('runtime/state/history.sqlite'); out=Path('runtime/persist'); out.mkdir(parents=True,exist_ok=True); Store(p).backup(out/'history.sqlite') if p.is_file() else None"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always() && steps.restore.outcome == 'success'
+        with:
+          name: scanwp-private-history
+          path: audit-engine/runtime/persist/history.sqlite
+          if-no-files-found: error
+          retention-days: 90
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: scanwp-private-reports
+          path: |
+            audit-engine/runtime/output/*.json
+            audit-engine/runtime/output/*.html
+            audit-engine/runtime/output/*.xlsx
+            audit-engine/runtime/output/*.pdf
+          if-no-files-found: ignore
+          retention-days: 90
+      - name: Failure signal
+        if: failure()
+        run: echo '::error::Audit incomplete or execution failed. Review the private reports, alerts and workflow logs. No complete monthly audit is claimed.'

@@ -1,0 +1,5 @@
+.........s.............                                                  [100%]
+=========================== short test summary info ===========================
+SKIPPED [1] tests\unit\test_integrity.py:51: OS does not permit creating symlinks
+22 passed, 1 skipped in 0.29s
+Command: python -m pytest tests/unit/test_integrity.py -q; ExitCode: 0

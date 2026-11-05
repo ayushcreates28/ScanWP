@@ -1,0 +1,3 @@
+..........................................                               [100%]
+42 passed in 0.93s
+Command: python -m pytest tests/unit/test_wordfence.py -q; ExitCode: 0

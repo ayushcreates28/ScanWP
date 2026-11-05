@@ -1,0 +1,4 @@
+Command: .venv/Scripts/python.exe -m pytest tests/unit/test_config.py -q
+.......................................                                  [100%]
+39 passed in 0.19s
+ExitCode: 0

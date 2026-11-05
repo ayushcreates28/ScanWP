@@ -1,0 +1,60 @@
+FFFF                                                                     [100%]
+================================== FAILURES ===================================
+________________ test_reporting_timezone_rejects_unknown_zone _________________
+
+    def test_reporting_timezone_rejects_unknown_zone():
+>       with pytest.raises(ValidationError):site(reporting={'timezone':'No/Such_Zone'})
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValidationError
+
+tests\security\test_regressions.py:26: Failed
+__________ test_update_timestamps_must_be_valid_aware_and_not_future __________
+
+    def test_update_timestamps_must_be_valid_aware_and_not_future():
+>       with pytest.raises(InventoryError):parse_inventory(payload(),'https://audit.example.org')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE InventoryError
+
+tests\security\test_regressions.py:30: Failed
+______ test_remote_credential_echo_redacted_before_database_and_exports _______
+
+tmp_path = WindowsPath('{USERPROFILE}/AppData/Local/Temp/pytest-of-RENT IT/pytest-13/test_remote_credential_echo_re0')
+
+    def test_remote_credential_echo_redacted_before_database_and_exports(tmp_path):
+        from sentinel_audit.config import AuditConfig
+        token='Z'*64;raw=payload();raw['updatesCheckedAt']={};raw['components'][0]['name']='Echo '+token
+        factory=lambda s,c:GuardedClient(s,transport=httpx.MockTransport(lambda _:httpx.Response(200,json=raw)),sleep=lambda _:None,cancel=c)
+        store=Store(tmp_path/'db')
+        run_audits(AuditConfig(sites=[site()]),store,tmp_path/'out',environment={'SENTINEL_FIXTURE_TOKEN':token},client_factory=factory)
+>       assert token not in repr(store.latest('fixture'))
+E       assert 'ZZZZZZZZZZZ...ZZZZZZZZZZZZ' not in "{'changes':...: 'partial'}"
+E         
+E         'ZZZZZZZZZZZZZZZZZZ...ZZZZZZZZZZZZZZZZZZZ' is contained here:
+E         ?                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ...
+E         
+E         ...Full output truncated, use '-vv' to show
+
+tests\security\test_regressions.py:39: AssertionError
+________ test_successful_feed_persisted_for_history_source_provenance _________
+
+tmp_path = WindowsPath('{USERPROFILE}/AppData/Local/Temp/pytest-of-RENT IT/pytest-13/test_successful_feed_persisted0')
+
+    def test_successful_feed_persisted_for_history_source_provenance(tmp_path):
+        from sentinel_audit.config import AuditConfig
+        from sentinel_audit.wordfence import parse_record
+        record=parse_record({'id':'fixture','title':'TEST','software':[{'type':'core','slug':'wordpress','affected_versions':{}}],'copyrights':{'notice':'retain'}})
+        feed=FeedSnapshot((record,),datetime.now(UTC));store=Store(tmp_path/'db')
+        run_audits(AuditConfig(sites=[]),store,tmp_path/'out',environment={},feed=feed)
+>       assert store.load_feed()==feed
+E       AssertionError: assert None == FeedSnapshot(records=(Record(id='fixture', title='TEST', software=({'type': 'core', 'slug': 'wordpress', 'name': None,...9080, tzinfo=datetime.timezone.utc), source='https://www.wordfence.com/api/intelligence/v3/vulnerabilities/production')
+E        +  where None = load_feed()
+E        +    where load_feed = <sentinel_audit.history.Store object at 0x00000242D5D85A60>.load_feed
+
+tests\security\test_regressions.py:49: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/security/test_regressions.py::test_reporting_timezone_rejects_unknown_zone
+FAILED tests/security/test_regressions.py::test_update_timestamps_must_be_valid_aware_and_not_future
+FAILED tests/security/test_regressions.py::test_remote_credential_echo_redacted_before_database_and_exports
+FAILED tests/security/test_regressions.py::test_successful_feed_persisted_for_history_source_provenance
+4 failed in 2.04s
+Command: python -m pytest tests/security/test_regressions.py -q; ExitCode: 1

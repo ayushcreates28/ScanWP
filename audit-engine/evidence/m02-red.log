@@ -1,0 +1,28 @@
+
+=================================== ERRORS ====================================
+______________ ERROR collecting tests/security/test_transport.py ______________
+ImportError while importing test module '{WORKSPACE}\ScanWP\audit-engine\tests\security\test_transport.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+{USERPROFILE}\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\importlib\__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\security\test_transport.py:5: in <module>
+    from sentinel_audit.transport import GuardedClient, PinningBackend, ScopeError
+E   ModuleNotFoundError: No module named 'sentinel_audit.transport'
+_________________ ERROR collecting tests/unit/test_checks.py __________________
+ImportError while importing test module '{WORKSPACE}\ScanWP\audit-engine\tests\unit\test_checks.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+{USERPROFILE}\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\importlib\__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\unit\test_checks.py:2: in <module>
+    from sentinel_audit.checks import detect_wordpress, assess_headers, assess_exposure
+E   ModuleNotFoundError: No module named 'sentinel_audit.checks'
+=========================== short test summary info ===========================
+ERROR tests/security/test_transport.py
+ERROR tests/unit/test_checks.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 2 errors during collection !!!!!!!!!!!!!!!!!!!
+2 errors in 0.58s
+Command: python -m pytest tests/security/test_transport.py tests/unit/test_checks.py -q; ExitCode: 2

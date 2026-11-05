@@ -1,0 +1,23 @@
+................................................F.                       [100%]
+================================== FAILURES ===================================
+_____ test_public_scanner_collects_header_results_and_safe_probe_evidence _____
+
+    @pytest.mark.integration
+    def test_public_scanner_collects_header_results_and_safe_probe_evidence():
+        site=SiteConfig.model_validate({'id':'fixture','name':'Fixture','production_url':'https://audit.example.org/','authorized':True,'methods':['public'],'rate_limit_per_second':2})
+        def handler(request):
+            if request.url.path=='/':return httpx.Response(200,text='<meta name="generator" content="WordPress 6.9"><script src="/wp-includes/js/a.js"></script>')
+            if request.url.path=='/wp-config.php.bak':return httpx.Response(200,text="<?php define('DB_NAME','fixture');define('DB_PASSWORD','never-store');")
+            return httpx.Response(404)
+        with GuardedClient(site,transport=httpx.MockTransport(handler),sleep=lambda _:None) as c: result=scan_public(c)
+        assert result['detection']['confidence']=='confirmed'
+        assert result['status']=='partial'
+>       assert any(x['key']=='exposure-config' and x['status']=='fail' for x in result['checks'])
+E       assert False
+E        +  where False = any(<generator object test_public_scanner_collects_header_results_and_safe_probe_evidence.<locals>.<genexpr> at 0x000002824F6320C0>)
+
+tests\integration\test_public_scan.py:48: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/integration/test_public_scan.py::test_public_scanner_collects_header_results_and_safe_probe_evidence
+1 failed, 49 passed in 0.61s
+Command: python -m pytest tests/security/test_transport.py tests/unit/test_checks.py tests/integration/test_public_scan.py -q; ExitCode: 1

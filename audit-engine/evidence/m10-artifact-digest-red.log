@@ -1,0 +1,23 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+___________ test_archive_digest_must_match_trusted_github_metadata ____________
+
+tmp_path = WindowsPath('{USERPROFILE}/AppData/Local/Temp/pytest-of-RENT IT/pytest-25/test_archive_digest_must_match0')
+
+    def test_archive_digest_must_match_trusted_github_metadata(tmp_path):
+        real=transport(archive(tmp_path),[])
+        def altered(request):
+            response=real.handle_request(request)
+            if request.url.path.endswith('/artifacts'):
+                data=response.json();data['artifacts'][0]['digest']='sha256:'+'0'*64
+                return httpx.Response(200,json=data)
+            return response
+>       with pytest.raises(StateError):restore_history('owner/repo','main','fixture-token',tmp_path/'db',transport=httpx.MockTransport(altered))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE StateError
+
+tests\unit\test_github_state.py:133: Failed
+=========================== short test summary info ===========================
+FAILED tests/unit/test_github_state.py::test_archive_digest_must_match_trusted_github_metadata
+1 failed, 8 deselected in 0.99s
+Command: python -m pytest tests/unit/test_github_state.py -k digest -q; ExitCode: 1

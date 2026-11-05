@@ -1,0 +1,19 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+____________ test_feed_cache_atomic_storage_and_license_roundtrip _____________
+
+tmp_path = WindowsPath('{USERPROFILE}/AppData/Local/Temp/pytest-of-RENT IT/pytest-10/test_feed_cache_atomic_storage0')
+
+    def test_feed_cache_atomic_storage_and_license_roundtrip(tmp_path):
+        from sentinel_audit.wordfence import FeedSnapshot,parse_record,FeedError
+        raw={'id':'fixture-advisory','title':'Fixture','software':[{'type':'plugin','slug':'fixture','affected_versions':{}}],'copyrights':{'notice':'Retain fixture notice'}}
+        store=Store(tmp_path/'feed.db')
+>       assert store.load_feed() is None
+               ^^^^^^^^^^^^^^^
+E       AttributeError: 'Store' object has no attribute 'load_feed'
+
+tests\unit\test_history.py:118: AttributeError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_history.py::test_feed_cache_atomic_storage_and_license_roundtrip
+1 failed, 17 deselected in 0.84s
+Command: python -m pytest tests/unit/test_history.py -k feed_cache -q; ExitCode: 1

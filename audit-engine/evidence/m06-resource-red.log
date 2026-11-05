@@ -1,0 +1,20 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+_______________ test_connections_are_closed_after_transactions ________________
+
+tmp_path = WindowsPath('{USERPROFILE}/AppData/Local/Temp/pytest-of-RENT IT/pytest-5/test_connections_are_closed_af0')
+
+    def test_connections_are_closed_after_transactions(tmp_path):
+        import sqlite3
+        store=Store(tmp_path/'closed.db')
+        with store.connect() as connection:
+            connection.execute('SELECT 1')
+>       with pytest.raises(sqlite3.ProgrammingError):connection.execute('SELECT 1')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ProgrammingError
+
+tests\unit\test_history.py:111: Failed
+=========================== short test summary info ===========================
+FAILED tests/unit/test_history.py::test_connections_are_closed_after_transactions
+1 failed, 16 deselected in 1.02s
+Command: python -m pytest tests/unit/test_history.py -k connections -q; ExitCode: 1

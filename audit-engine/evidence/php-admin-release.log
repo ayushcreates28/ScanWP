@@ -1,0 +1,2 @@
+PASS: admin capability, multisite superadmin, nonce, token hashing, one-time display, expiry, revocation
+ExitCode: 0

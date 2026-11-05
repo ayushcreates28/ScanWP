@@ -1,0 +1,21 @@
+{
+  "tests": {
+    "unit": {
+      "passed": 246,
+      "skipped": 1,
+      "total": 247
+    },
+    "integration": {
+      "passed": 13,
+      "total": 13
+    },
+    "security": {
+      "passed": 40,
+      "total": 40
+    }
+  },
+  "combined_coverage": 93.94205443371378,
+  "line_coverage": 95.475910693302,
+  "python_version": "3.12.14",
+  "network_tests": "mocked; no live client scan"
+}

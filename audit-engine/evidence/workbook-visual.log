@@ -1,0 +1,8 @@
+{"kind":"table","sheet":"Summary","address":"A1:B7","rows":7,"cols":2,"values":[["ScanWP audit","TEST DATA ONLY"],["Registered sites",2],["Complete sites",0],["Known findings",1],["Partial sites",1],["Failed sites",1],["Assessment","Review recorded findings and incomplete checks. Zero known matches does not establish complete security, absence of malware, or absence of exploitation."]]}
+Rendered Summary
+Rendered Sites
+Rendered Findings
+Rendered Inventory
+Rendered Checks
+Rendered History
+Command: node runtime/render/preview.mjs; ExitCode: -1073740791

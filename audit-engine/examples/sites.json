@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "schedule": {"day": 1, "hour": 9, "minute": 17, "timezone": "Asia/Kolkata"},
+  "sites": [{
+    "id": "quadigy",
+    "name": "Quadigy - disabled setup example",
+    "production_url": "https://www.quadigy.com/",
+    "environment": "production",
+    "authorized": true,
+    "enabled": false,
+    "methods": ["public", "inventory"],
+    "connector_token_env": "SENTINEL_QUADIGY_TOKEN",
+    "rate_limit_per_second": 0.5,
+    "timeout_seconds": 15,
+    "max_requests": 25,
+    "max_response_bytes": 5000000,
+    "criticality": "standard",
+    "reporting": {"formats": ["json", "xlsx", "html", "pdf"], "timezone": "Asia/Kolkata"}
+  }]
+}

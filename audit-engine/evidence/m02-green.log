@@ -1,0 +1,19 @@
+........................F......................                          [100%]
+================================== FAILURES ===================================
+__________ test_errors_are_redacted_and_cancellation_stops_requests ___________
+
+    def test_errors_are_redacted_and_cancellation_stops_requests():
+        import threading
+        def handler(r):raise httpx.ConnectError('sensitive: fixture-secret',request=r)
+        with client(handler,max_requests=2) as c:r=c.get('https://audit.example.org/')
+>       assert r.error=='network' and 'fixture-secret' not in repr(r)
+E       AssertionError: assert ('budget' == 'network'
+E         
+E         - network
+E         + budget)
+
+tests\security\test_transport.py:89: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/security/test_transport.py::test_errors_are_redacted_and_cancellation_stops_requests
+1 failed, 46 passed in 0.47s
+Command: python -m pytest tests/security/test_transport.py tests/unit/test_checks.py -q; ExitCode: 1

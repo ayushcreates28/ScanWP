@@ -1,0 +1,4 @@
+........................................................................ [ 84%]
+.............                                                            [100%]
+85 passed in 3.26s
+Command: python -m pytest tests/unit/test_wordfence.py tests/unit/test_summary.py tests/unit/test_reports.py -q; ExitCode: 0

@@ -1,0 +1,8 @@
+
+Warning: require({WORKSPACE}\ScanWP\wordpress-connector/scanwp-readonly-connector.php): Failed to open stream: No such file or directory in {WORKSPACE}\ScanWP\wordpress-connector\tests\contract.php on line 13
+
+Fatal error: Uncaught Error: Failed opening required '{WORKSPACE}\ScanWP\wordpress-connector/scanwp-readonly-connector.php' (include_path='.;C:\php\pear') in {WORKSPACE}\ScanWP\wordpress-connector\tests\contract.php:13
+Stack trace:
+#0 {main}
+  thrown in {WORKSPACE}\ScanWP\wordpress-connector\tests\contract.php on line 13
+Command: php wordpress-connector/tests/contract.php; ExitCode: 255

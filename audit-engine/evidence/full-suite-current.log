@@ -1,0 +1,56 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.14, pytest-9.2.0, pluggy-1.7.0
+rootdir: {WORKSPACE}\ScanWP\audit-engine
+configfile: pyproject.toml
+testpaths: tests
+plugins: anyio-4.16.0, platformdirs-4.14.5, cov-7.1.0
+collected 240 items
+
+tests\integration\test_extended_checks.py .                              [  0%]
+tests\integration\test_public_scan.py ...                                [  1%]
+tests\integration\test_runner.py .....                                   [  3%]
+tests\security\test_transport.py ............................            [ 15%]
+tests\unit\test_checks.py ........................                       [ 25%]
+tests\unit\test_cli.py .....                                             [ 27%]
+tests\unit\test_config.py .......................................        [ 43%]
+tests\unit\test_history.py .................                             [ 50%]
+tests\unit\test_integrity.py .........s.............                     [ 60%]
+tests\unit\test_inventory.py ...................                         [ 68%]
+tests\unit\test_reports.py .........                                     [ 72%]
+tests\unit\test_scheduler.py ......                                      [ 74%]
+tests\unit\test_summary.py ...............                               [ 80%]
+tests\unit\test_wordfence.py ........................................... [ 98%]
+...
+ERROR: Coverage failure: total of 88 is less than fail-under=90
+                                                                         [100%]
+
+- generated xml file: {WORKSPACE}\ScanWP\audit-engine\evidence\current-junit.xml -
+=============================== tests coverage ================================
+______________ coverage: platform win32, python 3.12.14-final-0 _______________
+
+Name                                Stmts   Miss Branch BrPart  Cover   Missing
+-------------------------------------------------------------------------------
+src\sentinel_audit\__init__.py          1      0      0      0   100%
+src\sentinel_audit\checks.py           65      3     18      2    94%   63, 67->77, 75-76
+src\sentinel_audit\cli.py             114     33     42      7    65%   95-100, 135-138, 142-157, 160-166, 173->176, 191-202, 223
+src\sentinel_audit\config.py          122      5     40      4    94%   40, 48, 74, 139, 173
+src\sentinel_audit\environment.py      28      0      6      1    97%   72->79
+src\sentinel_audit\history.py         163      7     44      7    93%   69, 76, 107, 130, 147, 158, 202
+src\sentinel_audit\integrity.py        81      9     38      5    87%   19, 73, 79, 83, 98, 105-108
+src\sentinel_audit\inventory.py        97      4     28      4    94%   82, 93, 156, 177
+src\sentinel_audit\matching.py         54      4     26      4    90%   20, 43, 47, 56
+src\sentinel_audit\reports.py         159      4     60      4    96%   39, 57, 104, 112
+src\sentinel_audit\runner.py          142     30     48      8    76%   68, 205-210, 217, 226, 247-248, 252-305, 313, 315, 334-335
+src\sentinel_audit\scanner.py          32      0      6      0   100%
+src\sentinel_audit\scheduler.py        21      0      4      0   100%
+src\sentinel_audit\summary.py          74      4     28      4    92%   151, 158, 165, 173
+src\sentinel_audit\transport.py       165     20     46      8    87%   26, 56, 60-61, 87, 90, 115, 210, 213-214, 231, 250-251, 257-258, 261, 282, 293, 295, 318
+src\sentinel_audit\wordfence.py       159     15     44      7    89%   68-69, 78, 87-88, 104, 107-108, 114-115, 117, 209, 217, 229, 250
+-------------------------------------------------------------------------------
+TOTAL                                1477    138    478     65    88%
+Coverage JSON written to file evidence/coverage-current.json
+FAIL Required test coverage of 90.0% not reached. Total coverage: 88.39%
+=========================== short test summary info ===========================
+SKIPPED [1] tests\unit\test_integrity.py:70: OS does not permit creating symlinks
+================== 239 passed, 1 skipped in 72.47s (0:01:12) ==================
+Command: python -m pytest --cov=sentinel_audit --cov-report=term-missing --cov-report=json:evidence/coverage-current.json --junitxml=evidence/current-junit.xml; ExitCode: 1

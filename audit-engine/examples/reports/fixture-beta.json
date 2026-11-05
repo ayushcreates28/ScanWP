@@ -1,0 +1,61 @@
+{
+  "schema": "scanwp-report/v1",
+  "test_data": true,
+  "generated_at": "2026-11-05T14:04:35.410713+05:30",
+  "timezone": "Asia/Kolkata",
+  "assessment": "Review recorded findings and incomplete checks. Zero known matches does not establish complete security, absence of malware, or absence of exploitation.",
+  "counts": {
+    "registered": 1,
+    "complete": 0,
+    "partial": 0,
+    "failed": 1,
+    "skipped": 0,
+    "not_run": 0,
+    "verified_findings": 0,
+    "open_findings": 0,
+    "by_priority": {},
+    "changes": {}
+  },
+  "sites": [
+    {
+      "id": "test-run-fixture-beta",
+      "site_id": "fixture-beta",
+      "site_name": "TEST DATA fixture-beta",
+      "site_url": "https://audit.example.org/",
+      "started": "2026-11-01T03:47:00+00:00",
+      "status": "failed",
+      "inventory": {
+        "core_version": "6.9",
+        "php_version": "8.4",
+        "components": [
+          {
+            "id": "fixture-plugin",
+            "type": "plugin",
+            "name": "TEST ONLY demonstration plugin",
+            "slug": "test-only-plugin",
+            "version": "1.0",
+            "status": "active",
+            "update_state": "available",
+            "latest": "2.0",
+            "auto_update": false
+          }
+        ]
+      },
+      "feed_status": "controlled-fixture",
+      "feed_fetched_at": null,
+      "findings": [],
+      "checks": [
+        {
+          "key": "inventory",
+          "status": "unknown",
+          "evidence": "TEST DATA: missing verification example."
+        }
+      ],
+      "changes": [],
+      "limitations": [
+        "TEST DATA ONLY. No live website, feed or WordPress integration was used."
+      ],
+      "outstanding": []
+    }
+  ]
+}

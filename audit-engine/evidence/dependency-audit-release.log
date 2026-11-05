@@ -1,0 +1,2 @@
+No known vulnerabilities found
+Command: python -m pip_audit --local --skip-editable --format=json --output=evidence/dependency-audit-release.json; ExitCode: 0

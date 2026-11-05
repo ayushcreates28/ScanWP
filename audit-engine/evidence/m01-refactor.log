@@ -1,0 +1,15 @@
+Command: .venv/Scripts/python.exe -m pytest tests/unit/test_config.py --cov=sentinel_audit --cov-report=term-missing --cov-report=json:evidence/m01-coverage.json -q
+.......................................                                  [100%]
+=============================== tests coverage ================================
+______________ coverage: platform win32, python 3.12.14-final-0 _______________
+
+Name                             Stmts   Miss Branch BrPart  Cover   Missing
+----------------------------------------------------------------------------
+src\sentinel_audit\__init__.py       1      0      0      0   100%
+src\sentinel_audit\config.py       122      6     40      5    93%   40, 48, 70, 74, 139, 173
+----------------------------------------------------------------------------
+TOTAL                              123      6     40      5    93%
+Coverage JSON written to file evidence/m01-coverage.json
+Required test coverage of 90.0% reached. Total coverage: 93.25%
+39 passed in 0.42s
+ExitCode: 0

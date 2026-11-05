@@ -1,0 +1,37 @@
+FF                                                                       [100%]
+================================== FAILURES ===================================
+_______ test_pdf_uses_explicit_unknown_and_includes_management_summary ________
+
+tmp_path = WindowsPath('{USERPROFILE}/AppData/Local/Temp/pytest-of-RENT IT/pytest-18/test_pdf_uses_explicit_unknown0')
+
+    def test_pdf_uses_explicit_unknown_and_includes_management_summary(tmp_path):
+        from sentinel_audit.summary import summarize
+        report=build_report([scan()],registered_sites=1,test_data=True)
+        report['summary']=summarize(report)
+        paths=export_report(report,tmp_path,'unknown')
+        text='\n'.join(p.extract_text() for p in PdfReader(paths['pdf']).pages)
+>       assert 'CVSS: unknown' in text
+E       AssertionError: assert 'CVSS: unknown' in 'ScanWP | Confidential audit | Page 1\n WordPress security audit\nTEST DATA ONLY - no live scan\n2026-11-05T13:35:36.3...| Confidential audit | Page 2\nHistorical comparison\nf-0: new\nLimitations\nTEST DATA ONLY; no live scan performed.\n'
+
+tests\unit\test_reports.py:122: AssertionError
+_________ test_format_failure_does_not_leave_published_partial_report _________
+
+tmp_path = WindowsPath('{USERPROFILE}/AppData/Local/Temp/pytest-of-RENT IT/pytest-18/test_format_failure_does_not_l0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000027228AE0EF0>
+
+    def test_format_failure_does_not_leave_published_partial_report(tmp_path,monkeypatch):
+        def fail(*_):raise OSError('PDF failure')
+        monkeypatch.setattr('sentinel_audit.reports.write_pdf',fail)
+        with pytest.raises(OSError):export_report(build_report([],registered_sites=0),tmp_path,'atomic')
+>       assert not list(tmp_path.glob('atomic.*'))
+E       AssertionError: assert not [WindowsPath('{USERPROFILE}/AppData/Local/Temp/pytest-of-RENT IT/pytest-18/test_format_failure_does_not_l0/atomic.h...owsPath('{USERPROFILE}/AppData/Local/Temp/pytest-of-RENT IT/pytest-18/test_format_failure_does_not_l0/atomic.xlsx')]
+E        +  where [WindowsPath('{USERPROFILE}/AppData/Local/Temp/pytest-of-RENT IT/pytest-18/test_format_failure_does_not_l0/atomic.h...owsPath('{USERPROFILE}/AppData/Local/Temp/pytest-of-RENT IT/pytest-18/test_format_failure_does_not_l0/atomic.xlsx')] = list(<generator object Path.glob at 0x0000027228B1F230>)
+E        +    where <generator object Path.glob at 0x0000027228B1F230> = glob('atomic.*')
+E        +      where glob = WindowsPath('{USERPROFILE}/AppData/Local/Temp/pytest-of-RENT IT/pytest-18/test_format_failure_does_not_l0').glob
+
+tests\unit\test_reports.py:131: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_reports.py::test_pdf_uses_explicit_unknown_and_includes_management_summary
+FAILED tests/unit/test_reports.py::test_format_failure_does_not_leave_published_partial_report
+2 failed, 9 deselected in 1.39s
+Command: python -m pytest tests/unit/test_reports.py -k 'explicit_unknown or partial_report' -q; ExitCode: 1

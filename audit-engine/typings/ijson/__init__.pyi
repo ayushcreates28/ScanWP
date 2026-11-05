@@ -1,0 +1,9 @@
+from collections.abc import Iterator
+from typing import Any, Protocol
+
+class Readable(Protocol):
+    def read(self, size: int = ..., /) -> bytes: ...
+
+class JSONError(ValueError): ...
+
+def kvitems(source: Readable, prefix: str) -> Iterator[tuple[str, Any]]: ...

@@ -1,0 +1,17 @@
+
+=================================== ERRORS ====================================
+_________________ ERROR collecting tests/unit/test_history.py _________________
+ImportError while importing test module '{WORKSPACE}\ScanWP\audit-engine\tests\unit\test_history.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+{USERPROFILE}\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\importlib\__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\unit\test_history.py:6: in <module>
+    from sentinel_audit.history import Store, compare_findings, canonicalize
+E   ModuleNotFoundError: No module named 'sentinel_audit.history'
+=========================== short test summary info ===========================
+ERROR tests/unit/test_history.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.20s
+Command: python -m pytest tests/unit/test_history.py -q; ExitCode: 2

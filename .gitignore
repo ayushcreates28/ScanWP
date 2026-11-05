@@ -1,0 +1,10 @@
+# Real operational data and credentials must stay private.
+runtime/
+dist/
+.env
+.env.*
+*.sqlite
+*.sqlite-*
+*.db
+*.db-*
+node_modules/

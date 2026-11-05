@@ -1,0 +1,22 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+_ test_public_scan_records_version_tls_and_user_metadata_without_personal_data _
+
+    def test_public_scan_records_version_tls_and_user_metadata_without_personal_data():
+        site=SiteConfig(id='fixture',name='Fixture',production_url='https://audit.example.org',authorized=True)
+        def handler(request):
+            if request.url.path=='/':return httpx.Response(200,text='<meta name="generator" content="WordPress 6.9">')
+            if request.url.path=='/wp-json/wp/v2/users':return httpx.Response(200,json=[{'id':1,'slug':'private-person'}])
+            return httpx.Response(404)
+        with GuardedClient(site,transport=httpx.MockTransport(handler),sleep=lambda _:None) as client:
+            result=scan_public(client)
+        checks={c['key']:c for c in result['checks']}
+>       assert checks['version-disclosure']['status']=='info'
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'version-disclosure'
+
+tests\integration\test_extended_checks.py:17: KeyError
+=========================== short test summary info ===========================
+FAILED tests/integration/test_extended_checks.py::test_public_scan_records_version_tls_and_user_metadata_without_personal_data
+1 failed in 0.49s
+Command: python -m pytest tests/integration/test_extended_checks.py -q; ExitCode: 1

@@ -1,0 +1,18 @@
+Command: .venv/Scripts/python.exe -m pytest tests/unit/test_config.py -q
+
+=================================== ERRORS ====================================
+_________________ ERROR collecting tests/unit/test_config.py __________________
+ImportError while importing test module '{WORKSPACE}\audit-engine\tests\unit\test_config.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+..\..\..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\importlib\__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\unit\test_config.py:7: in <module>
+    from sentinel_audit.config import AuditConfig, SiteConfig, load_config, normalize_url
+E   ModuleNotFoundError: No module named 'sentinel_audit.config'
+=========================== short test summary info ===========================
+ERROR tests/unit/test_config.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.80s
+ExitCode: 2

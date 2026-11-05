@@ -1,0 +1,628 @@
+.......EEEE.......FFFFF                                                  [100%]
+=================================== ERRORS ====================================
+_____ ERROR at setup of test_hashing_is_bounded_and_records_only_metadata _____
+
+cls = <class '_pytest.runner.CallInfo'>
+func = <function call_and_report.<locals>.<lambda> at 0x000002270EFC9DA0>
+when = 'setup'
+reraise = (<class '_pytest.outcomes.Exit'>, <class 'KeyboardInterrupt'>)
+
+    @classmethod
+    def from_call(
+        cls,
+        func: Callable[[], TResult],
+        when: Literal["collect", "setup", "call", "teardown"],
+        reraise: type[BaseException] | tuple[type[BaseException], ...] | None = None,
+    ) -> CallInfo[TResult]:
+        """Call func, wrapping the result in a CallInfo.
+    
+        :param func:
+            The function to call. Called without arguments.
+        :type func: Callable[[], _pytest.runner.TResult]
+        :param when:
+            The phase in which the function is called.
+        :param reraise:
+            Exception or exceptions that shall propagate if raised by the
+            function, instead of being wrapped in the CallInfo.
+        """
+        excinfo = None
+        instant = timing.Instant()
+        try:
+>           result: TResult | None = func()
+                                     ^^^^^^
+
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\runner.py:361: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\runner.py:250: in <lambda>
+    lambda: runtest_hook(item=item, **kwds),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\pluggy\_caller.py:197: in __call__
+    return self._hookexec(
+..\..\audit-engine\.venv\Lib\site-packages\pluggy\_manager.py:183: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\logging.py:871: in pytest_runtest_setup
+    yield
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\capture.py:901: in pytest_runtest_setup
+    return (yield)
+            ^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\runner.py:170: in pytest_runtest_setup
+    item.session._setupstate.setup(item)
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\runner.py:536: in setup
+    col.setup()
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\python.py:1801: in setup
+    self._request._fillfixtures()
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\fixtures.py:877: in _fillfixtures
+    item.funcargs[argname] = self.getfixturevalue(argname)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\fixtures.py:701: in getfixturevalue
+    fixturedef = self._get_active_fixturedef(argname)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\fixtures.py:797: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\fixtures.py:1301: in execute
+    result: FixtureValue = ihook.pytest_fixture_setup(
+..\..\audit-engine\.venv\Lib\site-packages\pluggy\_caller.py:197: in __call__
+    return self._hookexec(
+..\..\audit-engine\.venv\Lib\site-packages\pluggy\_manager.py:183: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\pluggy\_execution.py:64: in run_old_style_hookwrapper
+    return result.get_result()
+           ^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\pluggy\_execution.py:49: in run_old_style_hookwrapper
+    res = yield
+          ^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\setuponly.py:36: in pytest_fixture_setup
+    return (yield)
+            ^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\fixtures.py:1407: in pytest_fixture_setup
+    result = call_fixture_func(fixturefunc, request, kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\fixtures.py:1067: in call_fixture_func
+    fixture_result = next(generator)
+                     ^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\tmpdir.py:338: in tmp_path
+    path = _mk_tmp(request, tmp_path_factory)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\tmpdir.py:325: in _mk_tmp
+    return factory.mktemp(name, numbered=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\tmpdir.py:138: in mktemp
+    basename = self._ensure_relative_to_basetemp(basename)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\tmpdir.py:118: in _ensure_relative_to_basetemp
+    if (self.getbasetemp() / basename).resolve().parent != self.getbasetemp():
+        ^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\tmpdir.py:253: in getbasetemp
+    basetemp = make_numbered_dir_with_cleanup(
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\pathlib.py:464: in make_numbered_dir_with_cleanup
+    raise e
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\pathlib.py:445: in make_numbered_dir_with_cleanup
+    p = make_numbered_dir(root, prefix, mode)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('{USERPROFILE}/AppData/Local/Packages/sandbox.{820183ce-f73b-4a5d-9175-0241a639b96d}/AC/Temp/pytest-of-RENT IT')
+prefix = 'pytest-', mode = 448
+
+    def make_numbered_dir(root: Path, prefix: str, mode: int = 0o700) -> Path:
+        """Create a directory with an increased number as suffix for the given prefix."""
+        for i in range(10):
+            # try up to 10 times to create the directory
+            max_existing = max(map(parse_num, find_suffixes(root, prefix)), default=-1)
+            new_number = max_existing + 1
+            new_path = root.joinpath(f"{prefix}{new_number}")
+            try:
+                new_path.mkdir(mode=mode)
+            except Exception:
+                pass
+            else:
+                _force_symlink(root, prefix + "current", new_path)
+                return new_path
+        else:
+>           raise OSError(
+                "could not create numbered dir with prefix "
+                f"{prefix} in {root} after 10 tries"
+            )
+E           OSError: could not create numbered dir with prefix pytest- in {USERPROFILE}\AppData\Local\Packages\sandbox.{820183ce-f73b-4a5d-9175-0241a639b96d}\AC\Temp\pytest-of-RENT IT after 10 tries
+
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\pathlib.py:283: OSError
+___________ ERROR at setup of test_unapproved_directory_never_read ____________
+
+cls = <class '_pytest.runner.CallInfo'>
+func = <function call_and_report.<locals>.<lambda> at 0x000002270F565C60>
+when = 'setup'
+reraise = (<class '_pytest.outcomes.Exit'>, <class 'KeyboardInterrupt'>)
+
+    @classmethod
+    def from_call(
+        cls,
+        func: Callable[[], TResult],
+        when: Literal["collect", "setup", "call", "teardown"],
+        reraise: type[BaseException] | tuple[type[BaseException], ...] | None = None,
+    ) -> CallInfo[TResult]:
+        """Call func, wrapping the result in a CallInfo.
+    
+        :param func:
+            The function to call. Called without arguments.
+        :type func: Callable[[], _pytest.runner.TResult]
+        :param when:
+            The phase in which the function is called.
+        :param reraise:
+            Exception or exceptions that shall propagate if raised by the
+            function, instead of being wrapped in the CallInfo.
+        """
+        excinfo = None
+        instant = timing.Instant()
+        try:
+>           result: TResult | None = func()
+                                     ^^^^^^
+
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\runner.py:361: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\runner.py:250: in <lambda>
+    lambda: runtest_hook(item=item, **kwds),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\pluggy\_caller.py:197: in __call__
+    return self._hookexec(
+..\..\audit-engine\.venv\Lib\site-packages\pluggy\_manager.py:183: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\logging.py:871: in pytest_runtest_setup
+    yield
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\capture.py:901: in pytest_runtest_setup
+    return (yield)
+            ^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\runner.py:170: in pytest_runtest_setup
+    item.session._setupstate.setup(item)
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\runner.py:536: in setup
+    col.setup()
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\python.py:1801: in setup
+    self._request._fillfixtures()
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\fixtures.py:877: in _fillfixtures
+    item.funcargs[argname] = self.getfixturevalue(argname)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\fixtures.py:701: in getfixturevalue
+    fixturedef = self._get_active_fixturedef(argname)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\fixtures.py:797: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\fixtures.py:1301: in execute
+    result: FixtureValue = ihook.pytest_fixture_setup(
+..\..\audit-engine\.venv\Lib\site-packages\pluggy\_caller.py:197: in __call__
+    return self._hookexec(
+..\..\audit-engine\.venv\Lib\site-packages\pluggy\_manager.py:183: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\pluggy\_execution.py:64: in run_old_style_hookwrapper
+    return result.get_result()
+           ^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\pluggy\_execution.py:49: in run_old_style_hookwrapper
+    res = yield
+          ^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\setuponly.py:36: in pytest_fixture_setup
+    return (yield)
+            ^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\fixtures.py:1407: in pytest_fixture_setup
+    result = call_fixture_func(fixturefunc, request, kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\fixtures.py:1067: in call_fixture_func
+    fixture_result = next(generator)
+                     ^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\tmpdir.py:338: in tmp_path
+    path = _mk_tmp(request, tmp_path_factory)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\tmpdir.py:325: in _mk_tmp
+    return factory.mktemp(name, numbered=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\tmpdir.py:138: in mktemp
+    basename = self._ensure_relative_to_basetemp(basename)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\tmpdir.py:118: in _ensure_relative_to_basetemp
+    if (self.getbasetemp() / basename).resolve().parent != self.getbasetemp():
+        ^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\tmpdir.py:253: in getbasetemp
+    basetemp = make_numbered_dir_with_cleanup(
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\pathlib.py:464: in make_numbered_dir_with_cleanup
+    raise e
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\pathlib.py:445: in make_numbered_dir_with_cleanup
+    p = make_numbered_dir(root, prefix, mode)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('{USERPROFILE}/AppData/Local/Packages/sandbox.{820183ce-f73b-4a5d-9175-0241a639b96d}/AC/Temp/pytest-of-RENT IT')
+prefix = 'pytest-', mode = 448
+
+    def make_numbered_dir(root: Path, prefix: str, mode: int = 0o700) -> Path:
+        """Create a directory with an increased number as suffix for the given prefix."""
+        for i in range(10):
+            # try up to 10 times to create the directory
+            max_existing = max(map(parse_num, find_suffixes(root, prefix)), default=-1)
+            new_number = max_existing + 1
+            new_path = root.joinpath(f"{prefix}{new_number}")
+            try:
+                new_path.mkdir(mode=mode)
+            except Exception:
+                pass
+            else:
+                _force_symlink(root, prefix + "current", new_path)
+                return new_path
+        else:
+>           raise OSError(
+                "could not create numbered dir with prefix "
+                f"{prefix} in {root} after 10 tries"
+            )
+E           OSError: could not create numbered dir with prefix pytest- in {USERPROFILE}\AppData\Local\Packages\sandbox.{820183ce-f73b-4a5d-9175-0241a639b96d}\AC\Temp\pytest-of-RENT IT after 10 tries
+
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\pathlib.py:283: OSError
+_________________ ERROR at setup of test_symlink_not_followed _________________
+
+cls = <class '_pytest.runner.CallInfo'>
+func = <function call_and_report.<locals>.<lambda> at 0x000002270F5C3420>
+when = 'setup'
+reraise = (<class '_pytest.outcomes.Exit'>, <class 'KeyboardInterrupt'>)
+
+    @classmethod
+    def from_call(
+        cls,
+        func: Callable[[], TResult],
+        when: Literal["collect", "setup", "call", "teardown"],
+        reraise: type[BaseException] | tuple[type[BaseException], ...] | None = None,
+    ) -> CallInfo[TResult]:
+        """Call func, wrapping the result in a CallInfo.
+    
+        :param func:
+            The function to call. Called without arguments.
+        :type func: Callable[[], _pytest.runner.TResult]
+        :param when:
+            The phase in which the function is called.
+        :param reraise:
+            Exception or exceptions that shall propagate if raised by the
+            function, instead of being wrapped in the CallInfo.
+        """
+        excinfo = None
+        instant = timing.Instant()
+        try:
+>           result: TResult | None = func()
+                                     ^^^^^^
+
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\runner.py:361: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\runner.py:250: in <lambda>
+    lambda: runtest_hook(item=item, **kwds),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\pluggy\_caller.py:197: in __call__
+    return self._hookexec(
+..\..\audit-engine\.venv\Lib\site-packages\pluggy\_manager.py:183: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\logging.py:871: in pytest_runtest_setup
+    yield
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\capture.py:901: in pytest_runtest_setup
+    return (yield)
+            ^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\runner.py:170: in pytest_runtest_setup
+    item.session._setupstate.setup(item)
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\runner.py:536: in setup
+    col.setup()
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\python.py:1801: in setup
+    self._request._fillfixtures()
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\fixtures.py:877: in _fillfixtures
+    item.funcargs[argname] = self.getfixturevalue(argname)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\fixtures.py:701: in getfixturevalue
+    fixturedef = self._get_active_fixturedef(argname)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\fixtures.py:797: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\fixtures.py:1301: in execute
+    result: FixtureValue = ihook.pytest_fixture_setup(
+..\..\audit-engine\.venv\Lib\site-packages\pluggy\_caller.py:197: in __call__
+    return self._hookexec(
+..\..\audit-engine\.venv\Lib\site-packages\pluggy\_manager.py:183: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\pluggy\_execution.py:64: in run_old_style_hookwrapper
+    return result.get_result()
+           ^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\pluggy\_execution.py:49: in run_old_style_hookwrapper
+    res = yield
+          ^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\setuponly.py:36: in pytest_fixture_setup
+    return (yield)
+            ^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\fixtures.py:1407: in pytest_fixture_setup
+    result = call_fixture_func(fixturefunc, request, kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\fixtures.py:1067: in call_fixture_func
+    fixture_result = next(generator)
+                     ^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\tmpdir.py:338: in tmp_path
+    path = _mk_tmp(request, tmp_path_factory)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\tmpdir.py:325: in _mk_tmp
+    return factory.mktemp(name, numbered=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\tmpdir.py:138: in mktemp
+    basename = self._ensure_relative_to_basetemp(basename)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\tmpdir.py:118: in _ensure_relative_to_basetemp
+    if (self.getbasetemp() / basename).resolve().parent != self.getbasetemp():
+        ^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\tmpdir.py:253: in getbasetemp
+    basetemp = make_numbered_dir_with_cleanup(
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\pathlib.py:464: in make_numbered_dir_with_cleanup
+    raise e
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\pathlib.py:445: in make_numbered_dir_with_cleanup
+    p = make_numbered_dir(root, prefix, mode)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('{USERPROFILE}/AppData/Local/Packages/sandbox.{820183ce-f73b-4a5d-9175-0241a639b96d}/AC/Temp/pytest-of-RENT IT')
+prefix = 'pytest-', mode = 448
+
+    def make_numbered_dir(root: Path, prefix: str, mode: int = 0o700) -> Path:
+        """Create a directory with an increased number as suffix for the given prefix."""
+        for i in range(10):
+            # try up to 10 times to create the directory
+            max_existing = max(map(parse_num, find_suffixes(root, prefix)), default=-1)
+            new_number = max_existing + 1
+            new_path = root.joinpath(f"{prefix}{new_number}")
+            try:
+                new_path.mkdir(mode=mode)
+            except Exception:
+                pass
+            else:
+                _force_symlink(root, prefix + "current", new_path)
+                return new_path
+        else:
+>           raise OSError(
+                "could not create numbered dir with prefix "
+                f"{prefix} in {root} after 10 tries"
+            )
+E           OSError: could not create numbered dir with prefix pytest- in {USERPROFILE}\AppData\Local\Packages\sandbox.{820183ce-f73b-4a5d-9175-0241a639b96d}\AC\Temp\pytest-of-RENT IT after 10 tries
+
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\pathlib.py:283: OSError
+___________ ERROR at setup of test_permission_error_is_inconclusive ___________
+
+cls = <class '_pytest.runner.CallInfo'>
+func = <function call_and_report.<locals>.<lambda> at 0x000002270F5C37E0>
+when = 'setup'
+reraise = (<class '_pytest.outcomes.Exit'>, <class 'KeyboardInterrupt'>)
+
+    @classmethod
+    def from_call(
+        cls,
+        func: Callable[[], TResult],
+        when: Literal["collect", "setup", "call", "teardown"],
+        reraise: type[BaseException] | tuple[type[BaseException], ...] | None = None,
+    ) -> CallInfo[TResult]:
+        """Call func, wrapping the result in a CallInfo.
+    
+        :param func:
+            The function to call. Called without arguments.
+        :type func: Callable[[], _pytest.runner.TResult]
+        :param when:
+            The phase in which the function is called.
+        :param reraise:
+            Exception or exceptions that shall propagate if raised by the
+            function, instead of being wrapped in the CallInfo.
+        """
+        excinfo = None
+        instant = timing.Instant()
+        try:
+>           result: TResult | None = func()
+                                     ^^^^^^
+
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\runner.py:361: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\runner.py:250: in <lambda>
+    lambda: runtest_hook(item=item, **kwds),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\pluggy\_caller.py:197: in __call__
+    return self._hookexec(
+..\..\audit-engine\.venv\Lib\site-packages\pluggy\_manager.py:183: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\logging.py:871: in pytest_runtest_setup
+    yield
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\capture.py:901: in pytest_runtest_setup
+    return (yield)
+            ^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\runner.py:170: in pytest_runtest_setup
+    item.session._setupstate.setup(item)
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\runner.py:536: in setup
+    col.setup()
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\python.py:1801: in setup
+    self._request._fillfixtures()
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\fixtures.py:877: in _fillfixtures
+    item.funcargs[argname] = self.getfixturevalue(argname)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\fixtures.py:701: in getfixturevalue
+    fixturedef = self._get_active_fixturedef(argname)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\fixtures.py:797: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\fixtures.py:1301: in execute
+    result: FixtureValue = ihook.pytest_fixture_setup(
+..\..\audit-engine\.venv\Lib\site-packages\pluggy\_caller.py:197: in __call__
+    return self._hookexec(
+..\..\audit-engine\.venv\Lib\site-packages\pluggy\_manager.py:183: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\pluggy\_execution.py:64: in run_old_style_hookwrapper
+    return result.get_result()
+           ^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\pluggy\_execution.py:49: in run_old_style_hookwrapper
+    res = yield
+          ^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\setuponly.py:36: in pytest_fixture_setup
+    return (yield)
+            ^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\fixtures.py:1407: in pytest_fixture_setup
+    result = call_fixture_func(fixturefunc, request, kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\fixtures.py:1067: in call_fixture_func
+    fixture_result = next(generator)
+                     ^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\tmpdir.py:338: in tmp_path
+    path = _mk_tmp(request, tmp_path_factory)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\tmpdir.py:325: in _mk_tmp
+    return factory.mktemp(name, numbered=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\tmpdir.py:138: in mktemp
+    basename = self._ensure_relative_to_basetemp(basename)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\tmpdir.py:118: in _ensure_relative_to_basetemp
+    if (self.getbasetemp() / basename).resolve().parent != self.getbasetemp():
+        ^^^^^^^^^^^^^^^^^^
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\tmpdir.py:253: in getbasetemp
+    basetemp = make_numbered_dir_with_cleanup(
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\pathlib.py:464: in make_numbered_dir_with_cleanup
+    raise e
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\pathlib.py:445: in make_numbered_dir_with_cleanup
+    p = make_numbered_dir(root, prefix, mode)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('{USERPROFILE}/AppData/Local/Packages/sandbox.{820183ce-f73b-4a5d-9175-0241a639b96d}/AC/Temp/pytest-of-RENT IT')
+prefix = 'pytest-', mode = 448
+
+    def make_numbered_dir(root: Path, prefix: str, mode: int = 0o700) -> Path:
+        """Create a directory with an increased number as suffix for the given prefix."""
+        for i in range(10):
+            # try up to 10 times to create the directory
+            max_existing = max(map(parse_num, find_suffixes(root, prefix)), default=-1)
+            new_number = max_existing + 1
+            new_path = root.joinpath(f"{prefix}{new_number}")
+            try:
+                new_path.mkdir(mode=mode)
+            except Exception:
+                pass
+            else:
+                _force_symlink(root, prefix + "current", new_path)
+                return new_path
+        else:
+>           raise OSError(
+                "could not create numbered dir with prefix "
+                f"{prefix} in {root} after 10 tries"
+            )
+E           OSError: could not create numbered dir with prefix pytest- in {USERPROFILE}\AppData\Local\Packages\sandbox.{820183ce-f73b-4a5d-9175-0241a639b96d}\AC\Temp\pytest-of-RENT IT after 10 tries
+
+..\..\audit-engine\.venv\Lib\site-packages\_pytest\pathlib.py:283: OSError
+================================== FAILURES ===================================
+_ test_user_enumeration_does_not_store_personal_data[200-[{"id":1,"slug":"author"}]-True-info] _
+
+status = 200, body = b'[{"id":1,"slug":"author"}]', complete = True
+expected = 'info'
+
+    @pytest.mark.parametrize('status,body,complete,expected',[
+        (200,b'[{"id":1,"slug":"author"}]',True,'info'),
+        (200,b'[]',True,'pass'),(403,b'blocked',True,'unknown'),
+        (200,b'not json',True,'unknown'),(200,b'[{"id":1}]',False,'unknown'),
+    ])
+    def test_user_enumeration_does_not_store_personal_data(status,body,complete,expected):
+        result=assess_users(HTTPResult('https://audit.example.org/wp-json/wp/v2/users',status,{},body,complete,None,1))
+        assert result.status==expected
+>       assert 'author' not in result.evidence
+E       AssertionError: assert 'author' not in 'Public user...ot retained.'
+E         
+E         'author' is contained here:
+E           1. Public author metadata alone is not a vulnerability; identities are not retained.
+E         ?           ++++++
+
+tests\unit\test_integrity.py:83: AssertionError
+____ test_user_enumeration_does_not_store_personal_data[200-[]-True-pass] _____
+
+status = 200, body = b'[]', complete = True, expected = 'pass'
+
+    @pytest.mark.parametrize('status,body,complete,expected',[
+        (200,b'[{"id":1,"slug":"author"}]',True,'info'),
+        (200,b'[]',True,'pass'),(403,b'blocked',True,'unknown'),
+        (200,b'not json',True,'unknown'),(200,b'[{"id":1}]',False,'unknown'),
+    ])
+    def test_user_enumeration_does_not_store_personal_data(status,body,complete,expected):
+        result=assess_users(HTTPResult('https://audit.example.org/wp-json/wp/v2/users',status,{},body,complete,None,1))
+        assert result.status==expected
+>       assert 'author' not in result.evidence
+E       AssertionError: assert 'author' not in 'Public user...ot retained.'
+E         
+E         'author' is contained here:
+E           0. Public author metadata alone is not a vulnerability; identities are not retained.
+E         ?           ++++++
+
+tests\unit\test_integrity.py:83: AssertionError
+_ test_user_enumeration_does_not_store_personal_data[403-blocked-True-unknown] _
+
+status = 403, body = b'blocked', complete = True, expected = 'unknown'
+
+    @pytest.mark.parametrize('status,body,complete,expected',[
+        (200,b'[{"id":1,"slug":"author"}]',True,'info'),
+        (200,b'[]',True,'pass'),(403,b'blocked',True,'unknown'),
+        (200,b'not json',True,'unknown'),(200,b'[{"id":1}]',False,'unknown'),
+    ])
+    def test_user_enumeration_does_not_store_personal_data(status,body,complete,expected):
+        result=assess_users(HTTPResult('https://audit.example.org/wp-json/wp/v2/users',status,{},body,complete,None,1))
+        assert result.status==expected
+>       assert 'author' not in result.evidence
+E       AssertionError: assert 'author' not in 'Public user...ot retained.'
+E         
+E         'author' is contained here:
+E           e. Public author metadata alone is not a vulnerability; identities are not retained.
+E         ?           ++++++
+
+tests\unit\test_integrity.py:83: AssertionError
+_ test_user_enumeration_does_not_store_personal_data[200-not json-True-unknown] _
+
+status = 200, body = b'not json', complete = True, expected = 'unknown'
+
+    @pytest.mark.parametrize('status,body,complete,expected',[
+        (200,b'[{"id":1,"slug":"author"}]',True,'info'),
+        (200,b'[]',True,'pass'),(403,b'blocked',True,'unknown'),
+        (200,b'not json',True,'unknown'),(200,b'[{"id":1}]',False,'unknown'),
+    ])
+    def test_user_enumeration_does_not_store_personal_data(status,body,complete,expected):
+        result=assess_users(HTTPResult('https://audit.example.org/wp-json/wp/v2/users',status,{},body,complete,None,1))
+        assert result.status==expected
+>       assert 'author' not in result.evidence
+E       AssertionError: assert 'author' not in 'Public user...ot retained.'
+E         
+E         'author' is contained here:
+E           e. Public author metadata alone is not a vulnerability; identities are not retained.
+E         ?           ++++++
+
+tests\unit\test_integrity.py:83: AssertionError
+_ test_user_enumeration_does_not_store_personal_data[200-[{"id":1}]-False-unknown] _
+
+status = 200, body = b'[{"id":1}]', complete = False, expected = 'unknown'
+
+    @pytest.mark.parametrize('status,body,complete,expected',[
+        (200,b'[{"id":1,"slug":"author"}]',True,'info'),
+        (200,b'[]',True,'pass'),(403,b'blocked',True,'unknown'),
+        (200,b'not json',True,'unknown'),(200,b'[{"id":1}]',False,'unknown'),
+    ])
+    def test_user_enumeration_does_not_store_personal_data(status,body,complete,expected):
+        result=assess_users(HTTPResult('https://audit.example.org/wp-json/wp/v2/users',status,{},body,complete,None,1))
+        assert result.status==expected
+>       assert 'author' not in result.evidence
+E       AssertionError: assert 'author' not in 'Public user...ot retained.'
+E         
+E         'author' is contained here:
+E           e. Public author metadata alone is not a vulnerability; identities are not retained.
+E         ?           ++++++
+
+tests\unit\test_integrity.py:83: AssertionError
+=========================== short test summary info ===========================
+ERROR tests/unit/test_integrity.py::test_hashing_is_bounded_and_records_only_metadata
+ERROR tests/unit/test_integrity.py::test_unapproved_directory_never_read - OS...
+ERROR tests/unit/test_integrity.py::test_symlink_not_followed - OSError: coul...
+ERROR tests/unit/test_integrity.py::test_permission_error_is_inconclusive - O...
+FAILED tests/unit/test_integrity.py::test_user_enumeration_does_not_store_personal_data[200-[{"id":1,"slug":"author"}]-True-info]
+FAILED tests/unit/test_integrity.py::test_user_enumeration_does_not_store_personal_data[200-[]-True-pass]
+FAILED tests/unit/test_integrity.py::test_user_enumeration_does_not_store_personal_data[403-blocked-True-unknown]
+FAILED tests/unit/test_integrity.py::test_user_enumeration_does_not_store_personal_data[200-not json-True-unknown]
+FAILED tests/unit/test_integrity.py::test_user_enumeration_does_not_store_personal_data[200-[{"id":1}]-False-unknown]
+5 failed, 14 passed, 4 errors in 1.17s
+Command: python -m pytest tests/unit/test_integrity.py -q; ExitCode: 1

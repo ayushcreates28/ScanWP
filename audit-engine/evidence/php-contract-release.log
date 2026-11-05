@@ -1,0 +1,2 @@
+PASS: GET-only route, valid/missing/wrong/expired/revoked token, HTTPS requirement, read-only collection and no credential echo
+ExitCode: 0

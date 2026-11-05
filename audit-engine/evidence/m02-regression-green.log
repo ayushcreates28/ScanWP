@@ -1,0 +1,19 @@
+.F...                                                                    [100%]
+================================== FAILURES ===================================
+_ test_transition_addresses_cannot_hide_private_destinations[64:ff9b::7f00:1] _
+
+ip = '64:ff9b::7f00:1'
+
+    @pytest.mark.security
+    @pytest.mark.parametrize('ip',["2002:7f00:1::","64:ff9b::7f00:1","64:ff9b:1::a00:1"])
+    def test_transition_addresses_cannot_hide_private_destinations(ip):
+        raw=Backend()
+>       with pytest.raises(ScopeError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ScopeError
+
+tests\security\test_transport.py:175: Failed
+=========================== short test summary info ===========================
+FAILED tests/security/test_transport.py::test_transition_addresses_cannot_hide_private_destinations[64:ff9b::7f00:1]
+1 failed, 4 passed in 0.54s
+Command: python -m pytest transition-address and permissive-frame regressions; ExitCode: 1

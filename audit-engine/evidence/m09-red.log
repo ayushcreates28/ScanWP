@@ -1,0 +1,28 @@
+
+=================================== ERRORS ====================================
+________________ ERROR collecting tests/unit/test_scheduler.py ________________
+ImportError while importing test module '{WORKSPACE}\ScanWP\audit-engine\tests\unit\test_scheduler.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+{USERPROFILE}\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\importlib\__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\unit\test_scheduler.py:6: in <module>
+    from sentinel_audit.scheduler import due_period, next_due, is_missed
+E   ModuleNotFoundError: No module named 'sentinel_audit.scheduler'
+______________ ERROR collecting tests/integration/test_runner.py ______________
+ImportError while importing test module '{WORKSPACE}\ScanWP\audit-engine\tests\integration\test_runner.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+{USERPROFILE}\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\importlib\__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\integration\test_runner.py:8: in <module>
+    from sentinel_audit.runner import run_audits
+E   ModuleNotFoundError: No module named 'sentinel_audit.runner'
+=========================== short test summary info ===========================
+ERROR tests/unit/test_scheduler.py
+ERROR tests/integration/test_runner.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 2 errors during collection !!!!!!!!!!!!!!!!!!!
+2 errors in 0.69s
+Command: python -m pytest tests/unit/test_scheduler.py tests/integration/test_runner.py -q; ExitCode: 2
