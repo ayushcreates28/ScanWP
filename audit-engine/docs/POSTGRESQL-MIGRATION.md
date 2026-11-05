@@ -2,7 +2,7 @@
 
 SQLite is the implemented store. No PostgreSQL adapter or production migration has been executed. Keep SQLite for a single durable runner until a measured need for independent concurrent workers justifies migration.
 
-The storage boundary is `history.Store`: begin/finish/get/latest/scans/site_status, acquire/release/recover, save_feed/load_feed and backup. Scanning, finding IDs, explicit-clear comparison and report building must not change during migration. Implement a PostgreSQL store behind this same interface and run the existing storage/runner contract tests against both adapters before switching a real registry.
+The storage boundary is `history.Store`: begin/finish/report_failed/get/latest/scans/site_status, acquire/release/recover, save_feed/load_feed and backup. Scanning, finding IDs, explicit-clear comparison and report building must not change during migration. Implement a PostgreSQL store behind this same interface and run the existing storage/runner contract tests against both adapters before switching a real registry. Report failures must remain partial/retryable and preserve recorded findings.
 
 Map scan IDs to UUID, timestamps to TIMESTAMPTZ, canonical documents to JSONB and stable site/finding/advisory identifiers to bounded TEXT. Add an explicit monotonic sequence for deterministic scan ordering instead of SQLite rowid. Keep unique scan IDs, the site/start ordering index, singleton feed metadata and unique advisory IDs. Store a schema version and apply numbered transactional migrations. Preserve normalized provider records and copyright notices.
 
