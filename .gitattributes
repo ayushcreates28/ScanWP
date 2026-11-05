@@ -1,0 +1,13 @@
+* text=auto
+*.py text eol=lf
+*.pyi text eol=lf
+*.php text eol=lf
+*.yml text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.xml text eol=lf
+*.pdf binary
+*.xlsx binary
+*.png binary
+# Preserve captured output, including original diagnostic whitespace.
+audit-engine/evidence/*.log -text -whitespace
