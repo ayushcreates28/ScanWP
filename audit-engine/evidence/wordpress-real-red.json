@@ -1,0 +1,24 @@
+{
+  "run_id": 42000728179,
+  "url": "https://github.com/ayushcreates28/ScanWP/actions/runs/42000728179",
+  "head_sha": "ccbbc28243c7d31ecc36068c84eece54bfb65546",
+  "status": "completed",
+  "conclusion": "failure",
+  "tests": {
+    "tests": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0
+  },
+  "coverage": null,
+  "test_failures": [
+    {
+      "name": "test_real_wordpress_auth_inventory_read_only_expiry_rotation_revocation",
+      "message": "httpx.ConnectError: [Errno 111] Connection refused"
+    }
+  ],
+  "artifact_id": 13402272215,
+  "artifact_sha256": "sha256:8a5eea3a4edb41be0b9ce7eb3090913e3c2c928b603455c1db323ecffb864a78",
+  "artifact_digest_verified": true,
+  "limits": "Ordinary CI fixtures, not a live website/WordPress/provider audit. No monthly scan dispatched."
+}

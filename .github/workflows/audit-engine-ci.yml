@@ -1,9 +1,9 @@
 name: Python audit engine checks
 on:
   push:
-    paths: ['audit-engine/**', 'wordpress-connector/**', '.github/workflows/**', 'AGENTS.md']
+    paths: ['audit-engine/**', 'wordpress-connector/**', 'wordpress-test/**', '.github/workflows/**', 'AGENTS.md']
   pull_request:
-    paths: ['audit-engine/**', 'wordpress-connector/**', '.github/workflows/**', 'AGENTS.md']
+    paths: ['audit-engine/**', 'wordpress-connector/**', 'wordpress-test/**', '.github/workflows/**', 'AGENTS.md']
 permissions:
   contents: read
 jobs:
@@ -65,11 +65,16 @@ jobs:
           mkdir -p runtime/wordpress
           openssl req -x509 -newkey rsa:2048 -sha256 -days 1 -nodes -subj '/CN=localhost' -addext 'subjectAltName=DNS:localhost,IP:127.0.0.1' -keyout runtime/wordpress/server.key -out runtime/wordpress/server.crt
       - name: Actual WordPress connector integration
+        run: bash ../wordpress-test/bootstrap.sh
+      - name: Verify actual WordPress connector
         env:
           SCANWP_WORDPRESS_TEST: '1'
           SCANWP_WORDPRESS_URL: https://localhost:8443
           SCANWP_WORDPRESS_CERT: runtime/wordpress/server.crt
         run: python -m pytest tests/wordpress/test_connector_live.py -q --junitxml=evidence/wordpress-junit.xml
+      - name: Clean up isolated fixture
+        if: always()
+        run: docker compose -f ../wordpress-test/compose.yml down -v
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
