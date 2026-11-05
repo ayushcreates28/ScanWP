@@ -32,4 +32,6 @@ An exit code of 0 means all enabled sites met the execution requirements. Findin
 
 ## Required release verification
 
-Before enabling production: run the actual connector on isolated WordPress, exercise token rotation/revocation, run a real Wordfence download with an operator key, compare installed versions/updates against Admin, validate reports in intended viewers, run two staging audits with a controlled change, verify GitHub artifact restore, cancellation and failure notifications. Obtain explicit live-scan authorization. These checks have not been performed locally; Docker and staging credentials were unavailable.
+The connector has passed actual REST dispatch, installed inventory and token expiry/rotation/revocation in isolated Docker WordPress on GitHub Actions. See wordpress-test/README.md to reproduce. Docker was unavailable locally, so this result comes from the hosted job, not the PHP stubs.
+
+Before enabling production: verify real admin-browser nonce dispatch, multisite/vendor inventory, run a real Wordfence download with an operator key, compare installed versions/updates against Admin, validate reports in intended viewers, run two staging audits with a controlled change, and verify monthly history restore, cancellation and failure notifications. Obtain explicit live-scan authorization. These client/staging/live-provider checks remain unexecuted.

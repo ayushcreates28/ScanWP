@@ -1,6 +1,14 @@
 # Executed testing and remaining verification
 
-Status: **partially verified**, not production-ready. Automated engine tests and isolated PHP function fixtures ran locally. They are not real WordPress, live provider, TLS handshake, staging or hosted GitHub verification.
+Status: **partially verified**, not production-ready. Local tests, hosted engine CI and actual isolated Docker WordPress REST integration have passed. No client-site/staging scan, live Wordfence/Codex provider audit or unattended monthly audit is represented by those tests.
+
+## Hosted CI and actual WordPress
+
+[Passing hosted run](https://github.com/ayushcreates28/ScanWP/actions/runs/42001697476), revision `6b33261`: ordinary CI ran 301 cases, with **300 passed and 1 intentional Docker-profile skip**; the separate actual WordPress job ran that profile and **1 passed**. Zero failures/errors. Across both jobs, all 301 distinct test cases executed successfully. Python 3.12.15 on the hosted Linux runner; WordPress/WP-CLI/MariaDB/Nginx image digests are pinned in wordpress-test/compose.yml. The earlier local Windows checkpoint uses Python 3.12.14 and retains its one OS symlink skip; the symlink case passed on Linux.
+
+Hosted coverage: **95.65% lines**, **94.16% combined lines/branches** (1628 covered lines + 517 covered branches out of 1702 + 576). Formatting, lint, Mypy, Bandit, dependency audit, PHP fixtures and report smoke generation all passed. CI artifacts were downloaded without forwarding GitHub credentials to signed storage, then verified against GitHub's SHA-256. Summaries are in evidence/github-ci-6b33261.json and wordpress-real-green.json.
+
+The actual WordPress test verifies HTTPS, real REST dispatch/collector parsing, active/inactive/must-use components, active theme, core/PHP/settings, missing/wrong tokens, denied POST/PUT/PATCH/DELETE, unchanged inventory after rejected writes, expiry, rotation and revocation. Only the disposable Docker fixture is modified through WP-CLI. It is not a client installation. The initial RED run failed with connection refused before fixture provisioning; a subsequent bootstrap attempt failed because the CLI image needed an explicit wp entrypoint. That was corrected before the GREEN run. Evidence/wordpress-real-red.json and wordpress-bootstrap-attempt.json preserve both actual failures. No production credential was used.
 
 ## Measured release results
 
@@ -24,7 +32,7 @@ python -m sentinel_audit.cli demo --output runtime/demo
 
 Ruff formatting/lint, strict Mypy (17 source modules), Bandit and pip-audit passed. Dependency audit reported no known vulnerabilities in the installed environment. It is a point-in-time advisory result. The earlier pip 25.0.1 audit failure is preserved, along with the upgrade and passing audit; do not mistake the old failure for the release environment.
 
-PHP REST fixture checks: valid/missing/wrong/expired/revoked credentials, HTTPS-only, GET-only registration, no refresh/integrity side effects, no token echo and no-store. Supplemental admin fixture checks: capability/superadmin/nonce, hashing, expiry, one-time display and revocation. These stub WordPress functions; they do not verify WordPress bootstrapping, real REST dispatch, database options, proxy integration or actual plugin inventory.
+PHP REST fixture checks: valid/missing/wrong/expired/revoked credentials, HTTPS-only, GET-only registration, no refresh/integrity side effects, no token echo and no-store. Supplemental admin fixture checks: capability/superadmin/nonce, hashing, expiry, one-time display and revocation. Those PHP fixtures stub WordPress functions. The separate Docker test supplies actual bootstrapping, REST dispatch, option-backed token behavior, a fixture TLS proxy and real installed inventory; real admin-browser nonce dispatch and multisite/vendor behavior remain unverified.
 
 ## TDD evidence by feature
 
@@ -52,11 +60,11 @@ JSON/XLSX/PDF round trips verify counts, site assignment, zero/one/220 finding c
 
 ## Required unexecuted checks
 
-- Actual isolated WordPress + plugin activation/REST/admin dispatch, multisite and vendor inventory. Docker was not available locally.
+- Real admin-browser nonce dispatch, multisite and premium/vendor inventory. Docker was unavailable locally; actual single-site WordPress REST/inventory/token verification subsequently passed in hosted Docker CI.
 - Real Wordfence v3 authentication/full feed/schema/licensing workflow using an operator-owned key.
 - Real Codex model/API (optional; deterministic summary is tested independently).
 - Real verified HTTPS handshake against an approved staging certificate; actual throttling/WAF behavior.
-- GitHub-hosted CI, monthly dispatch, SHA-verified history restore, retention and failure notification delivery.
+- Monthly dispatch, the application's private history restore end to end, retention and failure notification delivery. Ordinary hosted CI and SHA-verified CI evidence download passed; they are separate from running the monthly audit.
 - Approved staging smoke test and two-month operational comparison with independently verified inventory/updates and trusted integrity references.
 
 Do not label these “passed” because mocked adapters passed. See `audit-engine/STATUS.md` for remaining feature limits as well as external prerequisites.

@@ -1,0 +1,19 @@
+{
+  "run_id": 42001697476,
+  "url": "https://github.com/ayushcreates28/ScanWP/actions/runs/42001697476",
+  "head_sha": "6b332619bf5cd21a6fa28058bffc85ca45f5461c",
+  "status": "completed",
+  "conclusion": "success",
+  "tests": {
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "coverage": null,
+  "test_failures": [],
+  "artifact_id": 13402418290,
+  "artifact_sha256": "sha256:4e04c47296b8d560807098f35fbdd400d48ee34a43484776c117ba2f7c0e6a94",
+  "artifact_digest_verified": true,
+  "limits": "Actual isolated WordPress container fixture; no client websites or live Wordfence/Codex provider. No monthly scan dispatched."
+}

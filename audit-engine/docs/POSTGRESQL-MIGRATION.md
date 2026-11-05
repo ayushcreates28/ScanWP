@@ -1,0 +1,13 @@
+# PostgreSQL migration path
+
+SQLite is the implemented store. No PostgreSQL adapter or production migration has been executed. Keep SQLite for a single durable runner until a measured need for independent concurrent workers justifies migration.
+
+The storage boundary is `history.Store`: begin/finish/get/latest/scans/site_status, acquire/release/recover, save_feed/load_feed and backup. Scanning, finding IDs, explicit-clear comparison and report building must not change during migration. Implement a PostgreSQL store behind this same interface and run the existing storage/runner contract tests against both adapters before switching a real registry.
+
+Map scan IDs to UUID, timestamps to TIMESTAMPTZ, canonical documents to JSONB and stable site/finding/advisory identifiers to bounded TEXT. Add an explicit monotonic sequence for deterministic scan ordering instead of SQLite rowid. Keep unique scan IDs, the site/start ordering index, singleton feed metadata and unique advisory IDs. Store a schema version and apply numbered transactional migrations. Preserve normalized provider records and copyright notices.
+
+Replace BEGIN IMMEDIATE with explicit transactions and row locks where required. Acquire leases with INSERT ON CONFLICT and a conditional expiry update or SELECT FOR UPDATE; never perform a separate unlocked check followed by a write. Retain owner checks on release. Use UTC consistently and test clock skew, concurrent finish attempts, rollback and expired-owner recovery. Do not use an in-process mutex as protection for independent workers.
+
+For migration, stop scheduled writers, take a SQLite backup through its backup API, and export canonical scans/feed records with their original IDs, timestamps, scanner/feed provenance, observations, outstanding unverified findings and comparison history. Import into an empty PostgreSQL database in a controlled transaction. Verify row counts, canonical JSON hashes, per-site latest records and findings/report totals against the source backup. Rebuild no finding IDs and infer no resolutions during import. Run two controlled monthly workflows and compare JSON reports byte-for-byte after excluding generated timestamps/connection-specific fields.
+
+Use a least-privilege database role, verified TLS, private network access, environment secret references and independent encrypted backups/PITR. Change the selected backend only after restore/recovery testing. Retain the read-only SQLite backup and an explicit rollback procedure; a failed import must not overwrite the original history. The GitHub artifact restore workflow is SQLite-specific and must be replaced with validated private PostgreSQL connectivity/backups rather than pretending a SQLite artifact is portable database state.

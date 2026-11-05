@@ -2,6 +2,9 @@
 
 ## 0.2.0 - 2026-11-05 (development, not production release)
 
+- Published source to GitHub after the user completed Git sign-in. Hosted ordinary CI passed all 300 engine cases; an added isolated Docker WordPress profile also passed real REST/inventory/token/write-method checks. Preserved the genuine connection-refused RED and corrected WP-CLI bootstrap failure; verified downloaded artifact SHA-256 values.
+- Added a documented PostgreSQL migration boundary and validation/rollback plan; no PostgreSQL adapter or production migration is claimed.
+
 - Added the Python 3.12 engine, strict multi-site registry and read-only network controls.
 - Added authenticated inventory parsing, approved WP-CLI import adapter, restricted WordPress token connector and supplemental PHP admin fixtures.
 - Added bounded Wordfence v3 ingestion, range matching, source notices and separate internal priority.

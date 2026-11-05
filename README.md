@@ -2,7 +2,7 @@
 
 Read-only WordPress inventory, vulnerability matching, audit history and reports for explicitly authorized sites. The Python engine runs separately from the existing Sites dashboard.
 
-**Current status: locally verified implementation, not a production release.** Real WordPress, live Wordfence/Codex, hosted CI and approved staging checks still require verification. See [STATUS](audit-engine/STATUS.md) and [test evidence](TESTING.md). No live website has been scanned by this engine.
+**Current status: verified in local and hosted CI, not a production release.** The connector also passed against actual isolated WordPress in Docker. Live Wordfence/Codex, client staging and operational monthly scans still require verification. See [STATUS](audit-engine/STATUS.md) and [test evidence](TESTING.md). No client website has been scanned or changed by this engine.
 
 The engine inventories installed plugins/themes (including inactive, network-active, must-use, drop-ins and parent themes), versions, activation, update availability and update-cache timestamps. Public checks cover WordPress detection, basic headers/HTTPS, sampled disclosures, directory listings, REST, XML-RPC and public user metadata. Wordfence v3 provides advisory version matching. SQLite tracks explicit new/recurring/resolved/unverified observations. Reports export JSON, XLSX, HTML and PDF for each site and the portfolio.
 

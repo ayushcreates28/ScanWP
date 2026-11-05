@@ -1,0 +1,25 @@
+{
+  "run_id": 41999115448,
+  "url": "https://github.com/ayushcreates28/ScanWP/actions/runs/41999115448",
+  "head_sha": "b4c3bb575eae8074a99490bdb4b1ee1fb1dfa38f",
+  "status": "completed",
+  "conclusion": "success",
+  "tests": {
+    "tests": 300,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "coverage": {
+    "lines-valid": "1702",
+    "lines-covered": "1628",
+    "line-rate": "0.9565",
+    "branches-valid": "576",
+    "branches-covered": "517",
+    "branch-rate": "0.8976"
+  },
+  "artifact_id": 13401876598,
+  "artifact_sha256": "sha256:68ef69080d20d881a6d3a21cd3a3707a4256bf9ae4a1511017df500e57cd5cb0",
+  "artifact_digest_verified": true,
+  "limits": "Ordinary CI fixtures, not a live website/WordPress/provider audit. No monthly scan dispatched."
+}
