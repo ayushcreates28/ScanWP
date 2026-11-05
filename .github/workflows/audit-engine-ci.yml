@@ -45,3 +45,34 @@ jobs:
             audit-engine/coverage.xml
             audit-engine/evidence/ci-junit.xml
           retention-days: 30
+  wordpress-integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: audit-engine
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r requirements.lock
+      - run: python -m pip install -e .
+      - name: Create isolated fixture certificate
+        run: |
+          mkdir -p runtime/wordpress
+          openssl req -x509 -newkey rsa:2048 -sha256 -days 1 -nodes -subj '/CN=localhost' -addext 'subjectAltName=DNS:localhost,IP:127.0.0.1' -keyout runtime/wordpress/server.key -out runtime/wordpress/server.crt
+      - name: Actual WordPress connector integration
+        env:
+          SCANWP_WORDPRESS_TEST: '1'
+          SCANWP_WORDPRESS_URL: https://localhost:8443
+          SCANWP_WORDPRESS_CERT: runtime/wordpress/server.crt
+        run: python -m pytest tests/wordpress/test_connector_live.py -q --junitxml=evidence/wordpress-junit.xml
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: isolated-wordpress-test-evidence
+          path: audit-engine/evidence/wordpress-junit.xml
+          retention-days: 30
